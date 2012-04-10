@@ -22,7 +22,7 @@ task :get_users => :environment do
   #puts agent.page.inspect
   agent.get(new_url)
   count = 0
-  f = File.open("yale.txt", "w")
+  # f = File.open("yale.txt", "w")
   l = agent.page.link_with(:text => "Next >")
   flag = true
   while flag
@@ -70,11 +70,11 @@ task :get_users => :environment do
         year: year,
         picture: "https://students.yale.edu#{image}"
       })
-      f.puts "#{fname} | #{lname} | #{email} | #{c} | #{year} | https://students.yale.edu#{image} | #{count}\n"
+      # f.puts "#{fname} | #{lname} | #{email} | #{c} | #{year} | https://students.yale.edu#{image} | #{count}\n"
       puts "#{count}: Wrote #{fname} #{lname}"
       count+=1
     end
-    f.flush()
+    # f.flush()
     if l
       puts l.href
       l.click()
@@ -84,6 +84,6 @@ task :get_users => :environment do
     end
   end
 
-  f.close()
+  # f.close()
 end
 
