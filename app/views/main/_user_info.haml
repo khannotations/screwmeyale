@@ -1,0 +1,13 @@
+.span1{:style => "width: 80px;"}
+  %img.user_image.round{:src => u.picture, :width => "80px", :height => "96px"}
+.span3
+  %h2{:style => "display: inline-block"}= "Hey #{@user.nickname}!"
+  .small= "#{@user.college} #{@user.year}"
+  - if u.gen and u.pref
+    .small 
+      You are a 
+      %b= u.gen
+      looking for 
+      %b= u.pref
+    .small (just so others know)
+.span4.offset1.pull-right

@@ -1,0 +1,13 @@
+- m = sc.screw
+%a.match_link{"data-toggle"=>"modal", :href => "#match_modal", "name" => m.fullname, "event" => sc.event, "intensity" => sc.intensity, "gen" => m.gen, "pref" => m.pref, "picture" => m.picture, "major" => m.major, "sc_id" => sc.id}
+  .match.blue-glow
+    %img.match_image.round{:src => m.picture}
+    .match_info
+      %b= m.nickname
+      %br
+      = m.lname
+      .tiny
+        #{m.college} Class of #{m.year}
+        %br
+        Intensity:
+        %b= sc.intensity

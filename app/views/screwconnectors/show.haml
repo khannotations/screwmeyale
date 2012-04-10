@@ -1,0 +1,140 @@
+- screw = @sc.screw # @screw is a screwconnector object
+.row
+  .span10 
+    %h6{:style => "margin-bottom: 10px;"} Showing matches for:
+    .span{:style => "margin-left: 20px;"}
+      %img.user_image.round{:src => screw.picture, :width => "75px", :height => "90px"}
+    .span{:style => "color: #FDFDFD;"}
+      %h2{:style => "display: inline-block"}= "#{screw.fullname}"
+      .small= "#{screw.college} #{screw.year}"
+      - if screw.gen and screw.pref
+        .small 
+          A 
+          %b= screw.gen
+          looking for 
+          %b= screw.pref
+          %br 
+          for 
+          %b= @sc.event 
+          with intensity
+          %b #{@sc.intensity}.
+.row{:style => "margin-top: 20px;"}
+  .span10
+    - if(flash[:error])
+      .alert.alert-error.fade.in
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#error= flash[:error]
+    - else
+      .alert.alert-error.fade.in.hide
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#error
+    - if(flash[:success])
+      .alert.alert-success.fade.in
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#success= flash[:success]
+    - else
+      .alert.alert-success.fade.in.hide
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#success
+.well
+  .tabbable
+    %ul.nav.nav-tabs
+      %li.active
+        %a{:href=>"#all_screws", "data-toggle" =>"tab"} All screws
+      - if not @all_screws.empty?
+        %li
+          %a{:href=>"#intensity_matches", "data-toggle" =>"tab"} Similar intensity
+      - if not @all_screws.empty?
+        %li
+          %a{:href=>"#event_matches", "data-toggle" =>"tab"} Same event
+      %li
+        %a{:href=>"#all_matches", "data-toggle" =>"tab"} Everybody!
+    .tab-content
+      #all_screws.tab-pane.active
+        .row{:style => "margin-left: 0px;"}
+          - if @all_screws.empty?
+            %h3 Sorry, no one to screw with!
+            %h5 Tell your friends to screw their roommates for a bigger sample size!
+          - else
+            - @all_screws.each do |sc|
+              = render :partial => "match_sc", :locals => {:sc => sc}
+      - if not @all_screws.empty?
+        #intensity_matches.tab-pane
+          .row{:style => "margin-left: 0px;"}
+            - if @int_matches.empty?
+              %h3 Sorry, no one with a similar intensity :(
+              %h5 Tell your friends to screw their roommates for a bigger sample size!
+            - else
+              - @int_matches.each do |sc|
+                = render :partial => "match_sc", :locals => {:sc => sc}
+      - if not @all_screws.empty?
+        #event_matches.tab-pane
+          .row{:style => "margin-left: 0px;"}
+            - if @event_matches.empty?
+              %h3 Sorry, no one going to the same event :(
+              %h5 Tell your friends to screw their roommates for a bigger sample size!
+            - else
+              - @event_matches.each do |sc|
+                = render :partial => "match_sc", :locals => {:sc => sc}
+      #all_matches.tab-pane
+        .row{:style => "margin-left: 0px;"}
+          - if @all_matches.empty?
+            %h3 Sorry, no matches right now. 
+            %h5 Tell your friends to screw their roommates for a bigger sample size!
+          - else
+            - @all_matches.each do |match|
+              - if match[:type] == "user"
+                =render :partial => "match", :locals => {:m => match[:match]}
+              - else
+                - sc = match[:match]
+                = render :partial => "match_sc", :locals => {:sc => sc}
+
+#match_modal.modal.hide.fade.in
+  .modal-header
+    %a.close{"data-dismiss" => "modal"} &times;
+    %h3 
+      You're checking out 
+      %span.match_name
+  .modal-body
+    %img.match_picture.round{:width => "80px", :height => "96px", :style => "float: left; margin: 0px 40px;"}
+    .big
+      A 
+      %b.match_gen
+      looking for 
+      %b.match_pref
+      %br
+      majoring in 
+      %b.match_major
+      %br
+      for 
+      %b.match_event
+      %br 
+      with intensity
+      %b.match_intensity
+  .modal-footer
+    %a.btn.btn-danger{:href => "#", "data-dismiss"=>"modal"} Not interested
+    %a#match_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal", "from_id" => @sc.id} I want 'em!..for my screw
+
+#unmatch_modal.modal.hide.fade.in
+  .modal-header
+    %a.close{"data-dismiss" => "modal"} &times;
+    %h3 
+      You're checking out 
+      %span.match_name
+  .modal-body
+    .unmatch_top
+      %img.match_picture.round{:width => "80px", :height => "96px", :style => "float: left; margin: 0px 40px;"}
+      .big
+        A 
+        %b.match_gen
+        looking for 
+        %b.match_pref
+        %br
+        majoring in 
+        %b.match_major
+    .unmatch_bottom{:style => "margin-top: 10px; float: left;"}
+      %p.match_text{:style => "color: #01326D"}
+      %p.match_names
+  .modal-footer
+    %a.btn.btn-danger{:href => "#", "data-dismiss"=>"modal"} Dismiss
+

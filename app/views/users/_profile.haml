@@ -1,0 +1,10 @@
+%h2= "#{u.fname} #{u.lname}"
+%p= "#{u.email} | #{u.college} #{u.year}"
+%br
+.row
+  .span9
+    %img{:src => u.picture, :width => "100%", :style => "display: inline-block; width: 150px; float: left; margin-right: 50px;"}
+    .profile
+      = render :partial => "main/info", :locals => {:u => u, :preplace => true}
+      %span{:style => "text-align: center; width: 50%; margin: auto"}
+        .btn.btn-large.btn-primary#user_update{:style => "width: 278px;"} Update!

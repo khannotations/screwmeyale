@@ -1,0 +1,23 @@
+.form-horizontal
+  =form_tag("/new", :id => "screwconnector_form")
+  %fieldset
+    %legend Parameters:
+    = hidden_field_tag :screw_id
+    -#
+      .control-group
+        .control-label
+          %label Party intensity:
+        .controls
+          .number_field= number_field_tag :intensity, 0  
+    .control-group
+      .control-label
+        %label Party Intensity:
+      .controls
+        #intensity
+        #slider_caption 
+          %b#amount{:style => "font-size: 130%"}
+          %span#amount_caption
+    .control-group
+      .control-label= label_tag :event
+      .controls
+        #screw_select

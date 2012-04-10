@@ -1,0 +1,21 @@
+- p = sc.screwer
+- p_gen = "them"
+- p_gen = "her" if p.gen == "girl"
+- p_gen = "him" if p.gen == "boy"
+.screwer
+  .match
+    %img.match_image.round{:src => p.picture}
+    .match_info
+      %b= p.nickname
+      %br
+      = p.lname
+      .tiny
+        #{p.college} Class of #{p.year}
+  %div{:style => "margin-bottom: 5px;"}
+    For
+    %b= sc.event
+    %br
+    with intensity
+    %b= sc.intensity
+  .btn-group
+    .btn.btn-danger.remove_screwer{:sc_id => sc.id}= "Stop #{p_gen}!"

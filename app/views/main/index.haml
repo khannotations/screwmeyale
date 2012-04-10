@@ -1,0 +1,25 @@
+.span6#main
+  %h2 Welcome to the best screw experience of someone else's life.
+  %br
+  - if flash[:error]
+    .alert.alert-error.fade.in
+      %a.close{"data-dismiss" => "alert"} &times;
+      #{flash[:error]}
+  - if flash[:success]
+    .alert.alert-success.fade.in
+      %a.close{"data-dismiss" => "alert"} &times;
+      #{flash[:success]}
+  - if session[:cas_user]
+    %h1= "Logged in as #{session[:cas_user]}"
+  %p We know Screw season can be a hard time for everybody—-the frantic searches, the desperate conversations with strangers, the last-minute, pleading phone calls.
+  %p 
+    Well now, you can make sure that at least your roommate has a great time at screw, and save yourself a lot of hassle. With 
+    %a{:href => "/"} Screw Me Yale
+    you can find and match screw dates easier than ever.
+  #bottom
+    %a.btn.btn-success{:href => "/auth"} CAS Login
+  #bbottom
+    %a.pull-left{:href => "/about"} About
+    %span.pull-right 
+      By 
+      %a{:href => "//faiazkhan.com", :target => "_blank"} Rafi Khan

@@ -1,0 +1,86 @@
+.row#user_info
+  = render :partial => "main/user_info", :locals => {:u => @user}
+.row{:style => "margin-top: 20px;"}
+  .span10
+    - if(flash[:error])
+      .alert.alert-error.fade.in
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#error= flash[:error]
+    - else
+      .alert.alert-error.fade.in.hide
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#error
+    - if(flash[:success])
+      .alert.alert-success.fade.in
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#success= flash[:success]
+    - else
+      .alert.alert-success.fade.in.hide
+        %a.close{"data-dismiss" => "alert"} &times;
+        %span#success
+.well
+  .tabbable
+    %ul.nav.nav-tabs
+      %li.active
+        %a{:href=>"#A", "data-toggle" =>"tab"} Screws
+      %li
+        %a{:href=>"#E", "data-toggle" =>"tab"} 
+          Requests
+          - if not @got_requests.empty?
+            %sup{:style=> "color: blue; top: -6px;"} !!!
+      %li
+        %a{:href=>"#B", "data-toggle" =>"tab"} Screwers
+      %li
+        %a{:href=>"#C", "data-toggle" =>"tab"} Profile
+      -# if not @history.empty?
+        %li
+          %a{:href=>"#D", "data-toggle" =>"tab"} History
+
+    .tab-content
+      #A.tab-pane.active
+        = render :partial => "screwconnectors/screws", :locals => {:screws => @screws}
+        #slider
+      #B.tab-pane
+        = render :partial => "users/screwers", :locals => {:screwers => @screwers}
+      #C.tab-pane
+        = render :partial => "users/profile", :locals => {:u => @user}
+      -#
+        #D.tab-pane
+          - @history.each do |h|
+            %p 
+              You screwed 
+              %b #{h.screw.fullname} 
+              with 
+              %b #{h.match.screw.fullname} 
+              for
+              %b #{h.event} 
+              on #{h.updated_at.strftime("%B %d, %Y")}
+
+      #E.tab-pane
+        %h6 Requests for your screws
+        - if @got_requests.empty?
+          %p Your screws haven't gotten any requests :(
+        - @got_requests.each do |r|
+          = render :partial => "main/request", :locals => {:r => r}
+        %h6 Pending requests you've made
+        - if @sent_requests.empty?
+          %p You haven't made any requests...get searching!
+        - @sent_requests.each do |r|
+          = render :partial => "main/sent_request", :locals => {:r => r}
+- if not @user.active
+  %a#info_button.hide{"data-toggle"=>"modal", :href => "#info"}
+  #info.modal.hide.fade.in
+    .modal-header
+      %a.close{"data-dismiss" => "modal"} &times;
+      %h2 Preliminary info
+    .modal-body.info_modal
+      %p.big Hey! Before you can get screwin', we need some quick info about you:
+      = render :partial => "main/info", :locals => {:u => @user, :preplace => true}
+    .modal-footer
+      %a#info_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal"} Save!
+
+
+  
+  
+
+

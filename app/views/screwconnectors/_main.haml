@@ -1,0 +1,23 @@
+- screw = sc.screw
+.client.span3
+  .client_body
+    %img.client_image.round{:src => screw.picture, :style => "width: 45%;" }
+    .client_info.pull-right
+      .big
+        = screw.nickname
+        %br
+        %b{:style => "margin-left: 10px"}= screw.lname
+      = sc.event
+      %br
+      Intensity: 
+      %b= sc.intensity
+  .btn-group
+    - if screw.pref
+      %a.btn.btn-success{:href=> "/match/#{sc.id}"}= "Match!"
+    - else
+      %a.screw_match.btn.btn-success{"data-toggle"=>"modal", :href => "#sc_prefs", "sc_id" => sc.id, "p_id" => screw.id}= "Match!"
+    .btn.delete_client{:sc_id => sc.id} Remove
+  %br
+
+
+

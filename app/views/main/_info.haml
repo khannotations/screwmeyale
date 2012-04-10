@@ -1,0 +1,44 @@
+%p
+  A 
+  %select#gender{:style => "width: 80px; margin: 5px;"}
+    - if not preplace or u.gender == 0
+      %option{:value => "1"} boy
+      %option{:value => "2"} girl
+    - elsif u.gender == 1
+      %option{:value => "1", :selected => "selected"} boy
+      %option{:value => "2"} girl
+    - elsif u.gender == 2 
+      %option{:value => "1"} boy
+      %option{:value => "2", :selected => "selected"} girl
+      
+  interested in
+  %select#preference{:style => "width: 120px; margin: 5px; "}
+    - if not preplace or u.preference == 0
+      %option{:value => "1"} boys
+      %option{:value => "2"} girls
+      %option{:value => "3"} boys and girls
+    - elsif u.preference == 1
+      %option{:value => "1", :selected => "selected"} boys
+      %option{:value => "2"} girls
+      %option{:value => "3"} boys and girls
+    - elsif u.preference == 2
+      %option{:value => "1"} boys
+      %option{:value => "2", :selected => "selected"} girls
+      %option{:value => "3"} boys and girls
+    - elsif u.preference == 3 
+      %option{:value => "1"} boys
+      %option{:value => "2"} girls
+      %option{:value => "3", :selected => "selected"} boys and girls
+      
+.control-group
+  .controls
+    - maj = ""
+    - maj = u.major if preplace
+    majoring in
+    %input#major.info_in{:type => "text", "data-provide" => "typeahead", "data-items" => 5, "data-source" => User.majors, :placeholder => "Basketweaving", :style => "margin-left: 5px; width: 222px", :value => maj}
+.control-group
+  .controls
+    - nick = ""
+    - nick = u.nickname if preplace
+    and nickname (optional)
+    %input#nickname.info_in{:value => nick, :style => "margin-left: 5px; width: 146px;"}

@@ -1,0 +1,8 @@
+%h6 People screwing you:
+.row
+  .span10
+    - if screwers.empty?
+      %p No one's screwing you right now.
+    - else
+      - screwers.each do |sc|
+        = render :partial => "screwconnectors/screwer", :locals => {:sc => sc}

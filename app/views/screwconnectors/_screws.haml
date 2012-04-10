@@ -1,0 +1,38 @@
+%h6 People you're screwing:
+- help_text = ""
+
+#screws_container.row{:style => "margin-left: 0px;"}
+  - if not screws.empty?
+    - screws.each do |sc|
+      = render :partial => "screwconnectors/main", :locals => {:sc => sc}
+    - help_text = "Add another:"
+  - else
+    %p You're not screwing anyone right now.
+    - help_text = "Add one right here:"
+%br
+%h6= help_text
+#client_box.control-group
+  .controls
+    %input#client_input.span3{:type => "text", "data-provide" => "typeahead", :placeholder => "Eli H. Yale"}
+    %a#add_client.btn.btn-primary{"data-toggle"=>"modal", :style => "vertical-align: top"} Add!
+#new_client.modal.hide.fade.in
+  .modal-header
+    %a.close{"data-dismiss" => "modal"} &times;
+    %h3 
+      Time to screw 
+      %span#screw_name.hide
+    #multiple_screws.hide
+  .modal-body
+    = render :partial => "screwconnectors/form"
+  .modal-footer
+    %a.btn.btn-danger{:href => "#", "data-dismiss"=>"modal"} Cancel
+    %a#client_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal"} Screw!
+#sc_prefs.modal.hide.fade.in
+  .modal-header
+    %a.close{"data-dismiss" => "modal"} &times;
+    %h2 Hold up there!
+  .modal-body.screw_info
+    %p.big Before we get to pairing your wonderful screw with other wonderful screws, we need to know a bit about them:
+    = render :partial => "main/info", :locals => {:preplace => false}
+  .modal-footer
+    %a#sc_sub.btn.btn-primary{:href => "#"} Save!

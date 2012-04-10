@@ -1,0 +1,11 @@
+.sent_request{:style => "margin-bottom: 10px;"}
+  .span{:style => "width: 60%"}
+    For
+    %b= r.from.screw.fullname
+    from
+    %b= r.to.screw.nickname
+    for
+    %b= r.from.event
+    sent on 
+    %b= r.created_at
+  .btn.btn-danger.cancel{"r_id" => r.id, :style => "vertical-align: bottom;"} Cancel
