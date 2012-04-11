@@ -118,7 +118,7 @@ $(document).ready(function() {
             $("#screw_name").html(person.name+"!").show();
             $("#screw_id").val(person.id)
             $("#screw_select").html(person.select)
-            $("#client_input").val("").attr("placeholder", "Eli H. Yale")
+            $("#client_input").val("").attr("placeholder", "Your roommate/suitemate/loved one")
           }
           else if (data.status == "fail") {
             $("#error").html(data.flash).parents(".alert").slideDown("fast")
@@ -267,6 +267,7 @@ $(document).ready(function() {
   $(".info_in").focus(function() {
     $(this).parents(".control-group").removeClass("error")
   })
+  /* Modal at the beginning */
   $("#info_submit").click(function(e) {
     modal_post(this, "/info", function(data) {
       if(data.status == "fail") {
@@ -277,6 +278,7 @@ $(document).ready(function() {
       }
       else {
         $("#user_info").html(data);
+        $("#success").html("Welcome to Screw Me Yale! Start setting someone up by typing their name in the input box below!").parents(".alert").slideDown("fast");
       }
 
     })

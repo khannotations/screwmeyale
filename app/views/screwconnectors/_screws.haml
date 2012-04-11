@@ -8,13 +8,13 @@
     - help_text = "Add another:"
   - else
     %p You're not screwing anyone right now.
-    - help_text = "Add one right here:"
+    - help_text = "Start setting someone up right here:"
 %br
 %h6= help_text
 #client_box.control-group
   .controls
-    %input#client_input.span3{:type => "text", "data-provide" => "typeahead", :placeholder => "Eli H. Yale"}
-    %a#add_client.btn.btn-primary{"data-toggle"=>"modal", :style => "vertical-align: top"} Add!
+    %input#client_input.span3{:type => "text", "data-provide" => "typeahead", :placeholder => "Your roommate / suitemate / loved one"}
+    %a#add_client.btn.btn-large.btn-primary{"data-toggle"=>"modal", :style => "vertical-align: top"} Add!
 #new_client.modal.hide.fade.in
   .modal-header
     %a.close{"data-dismiss" => "modal"} &times;
@@ -26,7 +26,7 @@
     = render :partial => "screwconnectors/form"
   .modal-footer
     %a.btn.btn-danger{:href => "#", "data-dismiss"=>"modal"} Cancel
-    %a#client_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal"} Screw!
+    %a#client_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal"} Set them up!
 #sc_prefs.modal.hide.fade.in
   .modal-header
     %h2 Hold up there!
