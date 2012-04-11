@@ -157,7 +157,8 @@ $(document).ready(function() {
             $(".client").last().find(".screw_match").click();
         }
 
-      });
+      })
+      .error(ajax_error)
     }
 
     else if ($(t).hasClass("screw_match")) {
@@ -344,6 +345,10 @@ $(document).ready(function() {
 
   })
 })
+
+function ajax_error() {
+  $("#error").html("An error occurred -- please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
+}
 
 /* Easily post request from a modal. In the end, wasn't flexible enough for many cases, so is only called once... :-/ */ 
 function modal_post(btn, url, cb) {

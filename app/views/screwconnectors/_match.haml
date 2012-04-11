@@ -1,10 +1,14 @@
 - direct = m.gender == 1 ? "him" : "her"
 - dir = m.gender == 1 ? "his" : "her"
 - text = "<p>We're glad you think #{m.nickname}'s cute, but no one's screwing #{direct} right now.</p>"
-- text += m.screwers.empty? ? "<p>Also, no one's ever screwed #{m.nickname} on Screw Yale -- unfortunately, you're going to have to find #{dir} suitemates on your own :(</p>" : "<p>These people have screwed #{m.nickname} in the past; we suggest you try reaching out to them:</p>"
+- sup = ""
+- if not m.screwers.empty? 
+  - text += "<p>These people have screwed #{m.nickname} in the past; we suggest you try reaching out to them:</p>"
+  - sup = "also"
 - names = ""
 - m.screwers.uniq.each do |msc|
-  - names += "<p style='text-align: center'>#{msc.fullname}--<a href='mailto:#{msc.email}' target='_blank'>#{msc.email}</a></p>"
+  - names += "<p style='text-align: center'>#{msc.fullname}: &nbsp;&nbsp;<a href='mailto:#{msc.email}' target='_blank'>#{msc.email}</a></p>"
+- names += "<br/><p style='text-align: center'>You can #{sup} reach #{m.nickname} directly at <a href='mailto:#{m.email}' target='_blank'>#{m.email}</a></p>"
 .unmatch_link{"data-toggle"=>"modal", :href => "#unmatch_modal", "text" => text, "names" => names, "name" => m.fullname, "gen" => m.gen, "pref" => m.pref, "picture" => m.picture, "major" => m.major, :style => "display: inline-block;"}
   .match.red-glow
     %img.match_image.round{:src => m.picture}

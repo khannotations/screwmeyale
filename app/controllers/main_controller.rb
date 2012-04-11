@@ -6,7 +6,7 @@ class MainController < ActionController::Base
   def index
     if session[:cas_user]
       @user = User.find_by_netid(session[:cas_user])
-      #@user = User.find_by_email("derwin.aikens@yale.edu")
+      # @user = User.find_by_email("derwin.aikens@yale.edu")
       if not @user
         @user = User.ldap(session[:cas_user])
         if not @user

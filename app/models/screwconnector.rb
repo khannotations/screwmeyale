@@ -39,9 +39,9 @@ class Screwconnector < ActiveRecord::Base
     my_id = self.screwer_id;
     if p.preference == 3
       # Get all users matching preferences that aren't the screw him/herself or the screwer
-      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND (id <> ? OR id <> ?)", p.gender, p.id, my_id])
+      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND id <> ? AND id <> ?", p.gender, p.id, my_id])
     else
-      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND (gender = ?) AND (id <> ? OR id <> ?)", p.gender, p.preference, p.id, my_id])
+      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND (gender = ?) AND id <> ? AND id <> ?", p.gender, p.preference, p.id, my_id])
     end
     matches = []
 
@@ -49,7 +49,7 @@ class Screwconnector < ActiveRecord::Base
       puts a.fullname
       sc = a.screwconnectors.first # get all screwers (screwconnectors maps to screwconnectors in which this user is the screw, not the screwer)
       if not sc # the person is not being screwed
-        # matches.append({:type => "user", :match => a})
+        matches.append({:type => "user", :match => a})
       else # the person is being screwed
         if sc.match_id == 0 # and has not been matched
           matches.append({:type => "sc", :match => sc})
