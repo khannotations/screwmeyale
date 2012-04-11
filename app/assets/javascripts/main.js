@@ -177,7 +177,6 @@ $(document).ready(function() {
           nickname: $(bod).find("#nickname").val() 
         }, function(data) {
           if(data.status == "success") {
-            console.log("/match/"+$(t).attr("sc_id"))
             window.location.reload();
           }
           else if (data.status == "fail") {
@@ -270,7 +269,16 @@ $(document).ready(function() {
   })
   $("#info_submit").click(function(e) {
     modal_post(this, "/info", function(data) {
-      $("#user_info").html(data);
+      if(data.status == "fail") {
+        $("#error").html(data.flash).parents(".alert").slideDown("fast");
+        setTimeout(function() {
+          $("#info_submit").click();
+        }, 500)
+      }
+      else {
+        $("#user_info").html(data);
+      }
+
     })
   })
   /* Update post request from profile tab */

@@ -61,7 +61,7 @@ class ScrewconnectorsController < ApplicationController
         render :json => {:status => "success", :flash => "Yeah! You don't need that kinda drama."}
       else
         flash[:success] = "Yeah! You don't need 'em anyway!"
-        render :json => {:status => "success"} # triggers page redirect
+        render :json => {:status => "success"} # triggers page reload
       end
 
     rescue
@@ -82,10 +82,15 @@ class ScrewconnectorsController < ApplicationController
       @user.major = params[:major] if params[:major] and params[:major] != ""
       @user.nickname = params[:nickname] if params[:nickname] and params[:nickname] != ""
       @user.save
-      p @user
+      flash[:success] = "Preferences updated...now get matching!"
+      render :json => {:status => "success"} # triggers page reload
+      if params[:nickname] and params[:nickname] != ""
+        User.make_names
+      end
+      return
+    else
+      render :json => {:status => "fail", :flash => "Stop screwing around"}
     end
-    flash[:success] = "Preferences updated...now get matching!"
-    render :json => {:status => "success"}
   end
 
 end

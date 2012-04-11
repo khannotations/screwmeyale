@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
     return "boys" if p == 1
     return "girls" if p == 2
     return "boys and girls" if p == 3
-    return nil
+    return "other lames"
   end
 
   # Stringify the gender
@@ -64,16 +64,20 @@ class User < ActiveRecord::Base
     g = self.gender
     return "boy" if g == 1
     return "girl" if g == 2
-    return nil
+    return "lame" # Sass in case they bypassed gender specs
   end
 
 
-  @@students = []
-  User.all.each do |u|
-    if not (@@students.include? u.fullname)
-      @@students << u.fullname
+  def User.make_names
+    @@students = []
+    User.all.each do |u|
+      if not (@@students.include? u.fullname)
+        @@students << u.fullname
+      end
     end
   end
+  @@students = []
+  User.make_names
 
   def User.all_names
     @@students

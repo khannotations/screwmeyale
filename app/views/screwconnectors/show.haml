@@ -7,7 +7,7 @@
     .span{:style => "color: #FDFDFD;"}
       %h2{:style => "display: inline-block"}= "#{screw.fullname}"
       .small= "#{screw.college} #{screw.year}"
-      - if screw.gen and screw.pref
+      - if screw.gender != 0 and screw.preference != 0
         .small 
           A 
           %b= screw.gen

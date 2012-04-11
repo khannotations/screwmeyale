@@ -71,13 +71,12 @@
   %a#info_button.hide{"data-toggle"=>"modal", :href => "#info"}
   #info.modal.hide.fade.in
     .modal-header
-      %a.close{"data-dismiss" => "modal"} &times;
-      %h2 Preliminary info
+      %h2 Welcome to Screw Me Yale!
     .modal-body.info_modal
-      %p.big Hey! Before you can get screwin', we need some quick info about you:
+      %p.big Before you can get screwin', we need some quick info about you:
       = render :partial => "main/info", :locals => {:u => @user, :preplace => true}
     .modal-footer
-      %a#info_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal"} Save!
+      %a#info_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal"} Let's go!
 
 
   

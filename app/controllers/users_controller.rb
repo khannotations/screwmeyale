@@ -13,15 +13,18 @@ class UsersController < ApplicationController
       p = params[:preference].to_i
       @user.gender = g if (1..2).include? g
       @user.preference = p if (1..3).include? p
-      @user.major = params[:major]
-      @user.nickname = params[:nickname]
+      @user.major = params[:major] if params[:major] and params[:major] != ""
+      @user.nickname = params[:nickname] if params[:nickname] and params[:nickname] != ""
       @user.active = true
       @user.save
-      #flash[:success] = "Updates successful"
-      @screwed_by = Screwconnector.where(screwer_id: @user.id)
-      @screws = Screwconnector.where(screwer_id: @user.id)
+      flash[:success] = "Your preferences were updated. Welcome to Screw Me Yale!"
       render :partial => "main/user_info", :locals => {:u => @user}
+      if params[:nickname] and params[:nickname] != ""
+        User.make_names
+      end
       return
+    elsif
+      render :json => {:status => "fail", :flash => "Don't mess around!"}
     end
     redirect_to :root
   end

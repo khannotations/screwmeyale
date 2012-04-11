@@ -12,7 +12,7 @@
       Intensity: 
       %b= sc.intensity
   .btn-group
-    - if screw.pref
+    - if screw.preference != 0
       %a.btn.btn-success{:href=> "/match/#{sc.id}"}= "Match!"
     - else
       %a.screw_match.btn.btn-success{"data-toggle"=>"modal", :href => "#sc_prefs", "sc_id" => sc.id, "p_id" => screw.id}= "Match!"
