@@ -28,7 +28,10 @@ $(document).ready(function() {
     "#screwers": "#B",
     "#profile": "#C"
   }
-  $("a[href='"+hashes[hash]+"']").click();
+  if(hashes[hash])
+    $("a[href='"+hashes[hash]+"']").click();
+  else
+    window.location.hash = "";
 
   /* Sets the nav bar style depending on url */
   loc = window.location.pathname;
