@@ -16,9 +16,6 @@ gem 'haml'
 gem 'nokogiri'
 gem 'mechanize'
 
-gem 'whenever', :require => false
-gem 'net-ping'
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
