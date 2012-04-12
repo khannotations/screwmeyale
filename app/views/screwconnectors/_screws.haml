@@ -25,7 +25,7 @@
   .modal-body
     = render :partial => "screwconnectors/form"
   .modal-footer
-    %a.btn.btn-danger{:href => "#", "data-dismiss"=>"modal"} Cancel
+    %a#client_cancel.btn.btn-danger{:href => "#", "data-dismiss"=>"modal"} Cancel
     %a#client_submit.btn.btn-primary{:href => "#", "data-dismiss"=>"modal"} Set them up!
 #sc_prefs.modal.hide.fade.in
   .modal-header

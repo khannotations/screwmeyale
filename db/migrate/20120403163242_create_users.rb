@@ -12,7 +12,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :netid
       t.integer :gender, :default => 0
       t.integer :preference, :default => 0
-      t.string :major, :default => ""
+      t.string :major, :default => "Undecided"
 
       t.boolean :active, :default => false
       

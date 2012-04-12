@@ -33,6 +33,11 @@ class UsersController < ApplicationController
   # and renders a json of the user. This is necessary because of how the 
   # typeahead works
   def whois
+    me = User.find(session[:user_id])
+    if not me or not me.active
+      render :json => {:status => "inactive"}
+      return
+    end
     name = params[:name];
     if name != ""
       n = /"(\w|-)+" /.match(name)

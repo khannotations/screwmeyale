@@ -16,14 +16,20 @@ $(document).ready(function() {
 
   /* If this is the user's first visit, the #info_button will be rendered,
   which triggers a modal for updating preferences and setting the user 'active' */
-  setTimeout(function() {
-    $("#info_button").click()
-  }, 200)
+  if (window.location.hash != "#screwers") {
+    setTimeout(function() {
+      $("#info_button").click()
+    }, 200)
+  }
+  hash = window.location.hash;
+  hashes = {
+    "#screws": "#A",
+    "#requests": "#E",
+    "#screwers": "#B",
+    "#profile": "#C"
+  }
+  $("a[href='"+hashes[hash]+"']").click();
 
-  /* To logout of CAS */
-  $("#logout").on("click", function() {
-    $.get("/uncas");
-  })
   /* Sets the nav bar style depending on url */
   loc = window.location.pathname;
   if(loc == "/") {
@@ -78,6 +84,24 @@ $(document).ready(function() {
     $("#help").slideUp("fast")
   })
 
+  /* To logout of CAS */
+  $("#logout").on("click", function() {
+    $.get("/uncas");
+  })
+
+  $("a[href='#A']").click(function() {
+    window.location.hash = "screws"
+  })
+  $("a[href='#E']").click(function() {
+    window.location.hash = "requests"
+  })
+  $("a[href='#B']").click(function() {
+    window.location.hash = "screwers"
+  })
+  $("a[href='#C']").click(function() {
+    window.location.hash = "profile"
+  })
+
   /* ======= SCREWS TAB ===== */
   /* Allows for add client on enter keypress */
   $("#client_input").keypress(function(e) {
@@ -119,6 +143,11 @@ $(document).ready(function() {
             $("#screw_id").val(person.id)
             $("#screw_select").html(person.select)
             $("#client_input").val("").attr("placeholder", "Your roommate/suitemate/loved one")
+          }
+          else if (data.status == "inactive") {
+            $("#client_cancel").click();
+            $("#info_button").click();
+            console.log("inactive!")
           }
           else if (data.status == "fail") {
             $("#error").html(data.flash).parents(".alert").slideDown("fast")
