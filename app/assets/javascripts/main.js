@@ -132,7 +132,7 @@ $(document).ready(function() {
         }
         else if(data.status == "fail")
           $("#error").html(data.flash).parents(".alert").slideDown("fast")
-      })
+      }).error(ajax_error)
     }
     /* Adding a screwconnector from the screws tab (triggers modal) */
     else if ($(t).attr("id") == "add_client") {
@@ -156,7 +156,7 @@ $(document).ready(function() {
             $("#error").html(data.flash).parents(".alert").slideDown("fast")
           }
           
-        })
+        }).error(ajax_error)
         /* Sets the target of the 'Add!' button to trigger a modal (for error checking). Without this line, the modal won't trigger */
         $(t).attr("href", "#new_client")
       }
@@ -189,8 +189,7 @@ $(document).ready(function() {
             $(".client").last().find(".screw_match").click();
         }
 
-      })
-      .error(ajax_error)
+      }).error(ajax_error)
     }
 
     else if ($(t).hasClass("screw_match")) {
@@ -215,7 +214,7 @@ $(document).ready(function() {
           else if (data.status == "fail") {
             $("#error").html(data.flash).parents(".alert").fadeIn("fast")
           }
-        })
+        }).error(ajax_error)
       }
     }
   });
@@ -233,7 +232,7 @@ $(document).ready(function() {
       else if (data.status == "fail")
         $("#error").html(data.flash).parents(".alert").slideDown("fast")
 
-    })
+    }).error(ajax_error)
   })
   /* deny request */
   $(".deny").click(function() {
@@ -253,7 +252,7 @@ $(document).ready(function() {
       else if (data.status == "fail")
         $("#error").html(data.flash).parents(".alert").slideDown("fast")
 
-    })
+    }).error(ajax_error)
   })
   /* cancel request */
   $(".cancel").click(function() {
@@ -272,7 +271,7 @@ $(document).ready(function() {
       }
       else if (data.status == "fail")
         $("#error").html(data.flash).parents(".alert").slideDown("fast")
-    })
+    }).error(ajax_error)
   })
 
   /* ======= SCREWER TAB ======= */
@@ -292,7 +291,7 @@ $(document).ready(function() {
       else if (data.status == "fail") {
         $("#error").html(data.flash).parents(".alert").slideDown("fast");
       }
-    })
+    }).error(ajax_error)
   })
 
   /* ======= PROFILE TAB ======= */
@@ -302,20 +301,35 @@ $(document).ready(function() {
   })
   /* Modal at the beginning */
   $("#info_submit").click(function(e) {
-    modal_post(this, "/info", function(data) {
-      if(data.status == "fail") {
-        $("#error").html(data.flash).parents(".alert").slideDown("fast");
-        setTimeout(function() {
-          $("#info_submit").click();
-        }, 500)
-      }
-      else {
-        $("#user_info").html(data);
-        $("#success").html("Welcome to Screw Me Yale! Start setting someone up by typing their name in the input box below!").parents(".alert").slideDown("fast");
-      }
-
-    })
-  })
+    t = this;
+    if(validate(t)) {
+      console.log("validated!")
+      bod = $(t).parents(".modal").find(".modal-body")[0];
+      $.post(url, {
+        gender: $(bod).find("#gender").val(), 
+        preference: $(bod).find("#preference").val(),
+        major: $(bod).find("#major").val(),
+        nickname: $(bod).find("#nickname").val()
+      }, function(data) {
+        if(data.status == "fail") {
+          $("#error").html(data.flash).parents(".alert").slideDown("fast");
+          setTimeout(function() {
+            $("#info_submit").click();
+          }, 500)
+        }
+        else {
+          $("#user_info").html(data);
+          $("#success").html("Welcome to Screw Me Yale! Start setting someone up by typing their name in the input box below!").parents(".alert").slideDown("fast");
+        }
+      }).error(ajax_error)
+    }
+    else {
+      setTimeout(function() {
+        console.log("click!!")
+        $("#info_button").click()
+      }, 500)
+    }
+  }).error(ajax_error)
   /* Update post request from profile tab */
   $("#user_update").click(function() {
     bod = $(this).parents(".profile");
@@ -326,7 +340,7 @@ $(document).ready(function() {
       nickname: $(bod).find("#nickname").val()
     }, function(data) {
         $("#success").html("Attributes updated!").parents(".alert").slideDown("fast")
-    })
+    }).error(ajax_error)
   })
 
   /* ========== /match page =============== */
@@ -360,7 +374,7 @@ $(document).ready(function() {
       else if (data.status == "fail") {
         $("#error").html(data.flash).parents(".alert").slideDown("fast")
       }
-    })
+    }).error(ajax_error)
   })
   /* The matches who don't have people currently screwing them */
   $(".unmatch_link").click(function() {
@@ -378,28 +392,10 @@ $(document).ready(function() {
   })
 })
 
+/* ========== HELPER FUNCTIONS ========= */
+
 function ajax_error() {
   $("#error").html("An error occurred -- please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
-}
-
-/* Easily post request from a modal. In the end, wasn't flexible enough for many cases, so is only called once... :-/ */ 
-function modal_post(btn, url, cb) {
-  if(validate(btn)) {
-    bod = $(btn).parents(".modal").find(".modal-body")[0];
-    $.post(url, {
-      gender: $(bod).find("#gender").val(), 
-      preference: $(bod).find("#preference").val(),
-      major: $(bod).find("#major").val(),
-      nickname: $(bod).find("#nickname").val()
-    }, function(data) {
-      if(typeof cb === "function") cb(data, btn);
-    })
-  }
-  else {
-    setTimeout(function() {
-      $(btn).click()
-    }, 500)
-  }
 }
 
 /* Validates the standard _info partial */
