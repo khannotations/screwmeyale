@@ -303,9 +303,8 @@ $(document).ready(function() {
   $("#info_submit").click(function(e) {
     t = this;
     if(validate(t)) {
-      console.log("validated!")
       bod = $(t).parents(".modal").find(".modal-body")[0];
-      $.post(url, {
+      $.post("/info", {
         gender: $(bod).find("#gender").val(), 
         preference: $(bod).find("#preference").val(),
         major: $(bod).find("#major").val(),
