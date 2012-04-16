@@ -149,8 +149,7 @@ $(document).ready(function() {
           }
           else if (data.status == "inactive") {
             $("#client_cancel").click();
-            $("#info_button").click();
-            console.log("inactive!")
+            $("#info_button").click();  
           }
           else if (data.status == "fail") {
             $("#error").html(data.flash).parents(".alert").slideDown("fast")
@@ -201,6 +200,7 @@ $(document).ready(function() {
       bod = $(t).parents(".modal").find(".modal-body")[0];
 
       if(validate(t)) {
+        $(t).addClass("disabled")
         $.post("/sc/info", {
           id: $(t).attr("p_id"),
           gender: $(bod).find("#gender").val(),
@@ -324,7 +324,6 @@ $(document).ready(function() {
     }
     else {
       setTimeout(function() {
-        console.log("click!!")
         $("#info_button").click()
       }, 500)
     }

@@ -13,7 +13,7 @@ class Screwconnector < ActiveRecord::Base
 
   def find_all_screws
     p = self.screw
-    all = Screwconnector.includes(:screw).where(match_id: 0);
+    all = Screwconnector.includes(:screw).where(match_id: 0).order("updated_at DESC");
     matches = []
     if p.preference == 3
       all.each do |a|
@@ -39,9 +39,9 @@ class Screwconnector < ActiveRecord::Base
     my_id = self.screwer_id;
     if p.preference == 3
       # Get all users matching preferences that aren't the screw him/herself or the screwer
-      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND id <> ? AND id <> ?", p.gender, p.id, my_id])
+      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND id <> ? AND id <> ?", p.gender, p.id, my_id]).order("updated_at DESC");
     else
-      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND (gender = ?) AND id <> ? AND id <> ?", p.gender, p.preference, p.id, my_id])
+      all = User.includes({:screwconnectors => :screw}, :screwers).where(["(preference = ? OR preference = 3) AND (gender = ?) AND id <> ? AND id <> ?", p.gender, p.preference, p.id, my_id]).order("updated_at DESC");
     end
     matches = []
 
@@ -64,7 +64,7 @@ class Screwconnector < ActiveRecord::Base
   def find_int
     int = self.intensity
     p = self.screw
-    all = Screwconnector.includes(:screw).where(["(match_id = 0) AND intensity BETWEEN ? AND ?", (int-2), (int+2)])
+    all = Screwconnector.includes(:screw).where(["(match_id = 0) AND intensity BETWEEN ? AND ?", (int-2), (int+2)]).order("updated_at DESC");
     matches = []
     if p.preference == 3
       all.each do |a|
@@ -83,7 +83,7 @@ class Screwconnector < ActiveRecord::Base
   def find_event
     e = self.event
     p = self.screw
-    all = Screwconnector.includes(:screw).where(match_id: 0, event: e)
+    all = Screwconnector.includes(:screw).where(match_id: 0, event: e).order("updated_at DESC");
     matches = []
     if p.preference == 3
       all.each do |a|

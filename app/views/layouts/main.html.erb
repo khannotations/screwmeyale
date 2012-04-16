@@ -17,7 +17,9 @@
       <ul class="nav">
         <li class="home"><a href="/">Home</a></li>
         <li class="about"><a href="/about">About</a></li>
-        <li class="help"><a href='#'>Help!!</a></li>
+        <% if session[:cas_user] %>
+          <li class="help"><a href='#'>Help!!</a></li>
+        <% end %>
       </ul>
       <ul class="nav pull-right">
         <% if session[:cas_user] %>
