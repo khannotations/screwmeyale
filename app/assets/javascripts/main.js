@@ -38,8 +38,10 @@ $(document).ready(function() {
   if(loc == "/") {
     $("li.home").addClass("active");
   }
-  else if (loc == "/about")
+  else if (loc == "/about") {
     $("li.about").addClass("active");
+    $("li.help").hide();
+  }
 
   /* Makes the slider of the intensity picker */
   captions = [
