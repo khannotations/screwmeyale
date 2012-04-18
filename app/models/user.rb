@@ -22,7 +22,14 @@ class User < ActiveRecord::Base
   # All received requests
   def get_got
     self.got_requests.includes({:to => :screw}, {:from => :screw}).where(accepted: nil).order("to_id")
-    
+  end
+
+  def get_past_sent
+    self.sent_requests.includes({:to => :screw}, {:from => :screw}).where("accepted = ? OR accepted = ?", true, false).order("updated_at DESC")
+  end
+
+  def get_past_got
+    self.got_requests.includes({:to => :screw}, {:from => :screw}).where("accepted = ? OR accepted = ?", true, false).order("updated_at DESC")
   end
 
   def history

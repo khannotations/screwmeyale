@@ -410,7 +410,7 @@ $(document).ready(function() {
 /* ========== HELPER FUNCTIONS ========= */
 
 function ajax_error() {
-  $("#error").html("An error occurred -- please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
+  $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
 }
 
 /* Validates the standard _info partial */

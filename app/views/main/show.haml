@@ -59,14 +59,23 @@
       #E.tab-pane
         %h6 Requests for your screws
         - if @got_requests.empty?
-          %p Your screws haven't gotten any requests :(
+          %p Your screws haven't gotten any requests :( Don't lose hope!
         - @got_requests.each do |r|
-          = render :partial => "main/request", :locals => {:r => r}
+          = render :partial => "requests/got_request", :locals => {:r => r}
         %h6 Pending requests you've made
         - if @sent_requests.empty?
-          %p You haven't made any requests...get searching!
+          %p You haven't no pending requests...get searching!
         - @sent_requests.each do |r|
-          = render :partial => "main/sent_request", :locals => {:r => r}
+          = render :partial => "requests/sent_request", :locals => {:r => r}
+        %h6 Your past requrests:
+        - if @sent_past.empty? and @got_past.empty?
+          %p You've never made any requests.
+        - else
+          - @sent_past.each do |r|
+            = render :partial => "requests/sent_past", :locals => {:r => r}
+          - @got_past.each do |r|
+            = render :partial => "requests/got_past", :locals => {:r => r}
+
 - if not @user.active
   %a#info_button.hide{"data-toggle"=>"modal", :href => "#info"}
   #info.modal.hide.fade.in

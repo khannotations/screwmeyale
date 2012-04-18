@@ -4,4 +4,6 @@ class Request < ActiveRecord::Base
 
   validates :to_id, :presence => "true"
   validates :from_id, :presence => "true"
+
+  
 end

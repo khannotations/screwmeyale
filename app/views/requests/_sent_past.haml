@@ -1,0 +1,16 @@
+.past_request
+  %p 
+    You sent a request from your screw
+    %b= r.from.screw.fullname
+    to 
+    %b= r.to.screw.fullname
+    for
+    %b= r.from.event
+    and
+    - if r.accepted == true
+      - if r.to.event == r.from.event
+        %b{:style => "color: green"} they were set up!
+      - else
+        %b{:style => "color: green"} it was accepted!
+    - elsif r.accepted == false
+      %b{:style => "color: red"} rejected. :(

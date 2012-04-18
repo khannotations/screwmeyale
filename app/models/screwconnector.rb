@@ -11,6 +11,18 @@ class Screwconnector < ActiveRecord::Base
   validates :screw_id, :presence => "true"
   validates :screwer_id, :presence => "true"
 
+  def cleanup
+    # destroy all the pending requests from this screwconnector
+    Request.where(from_id: self, accepted: nil).destroy_all 
+    
+    recd = Request.where(to_id: self, accepted: nil)
+    recd.each do |r|
+      r.accepted = false # Reject all the other requests sent to this sc
+      r.save
+    end
+  end
+
+
   def find_all_screws
     p = self.screw
     all = Screwconnector.includes(:screw).where(match_id: 0).order("updated_at DESC");

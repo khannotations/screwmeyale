@@ -58,15 +58,17 @@ class RequestsController < ApplicationController
         if to.event == from.event # If they're going to the same event, block both
           to.match_id = from.id
           to.save
+          to.cleanup
           #mail_accept(to, from)
         end
+        from.cleanup
         flash[:success] = "Congrats, you've successfully screwed #{to.screw.nickname} with #{from.screw.fullname} for #{from.event.upcase}! Check your email to find out who the other screwer is!"
         render :json => {:status => "success"} # will trigger a page redirect
       else
         render :json => {:status => "fail", :flash => "Sorry, you took too long! Someone else already matched with #{from.screw.nickname} :("}
       end
     else
-      render :json => {:status => "fail", :flash => "Please stop messing around"}
+      render :json => {:status => "fail", :flash => "Sorry, that request was cancelled!"}
     end
   end
 end
