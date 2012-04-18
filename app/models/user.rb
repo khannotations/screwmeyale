@@ -36,12 +36,15 @@ class User < ActiveRecord::Base
     self.screwconnectors.includes({:match => :screw}, :screw).where("match_id > '0'").order("updated_at")
   end
 
-  def fullname
+  def lengthy_name
     if self.nickname != self.fname
       "#{self.fname} \"#{self.nickname}\" #{self.lname}"
     else
       "#{self.fname} #{self.lname}"
     end
+  end
+  def fullname
+    "#{self.nickname} #{self.lname}"
   end
 
   # Should be in helper, but couldn't get it to work and gave up
@@ -78,8 +81,8 @@ class User < ActiveRecord::Base
   def User.make_names
     @@students = []
     User.all.each do |u|
-      if not (@@students.include? u.fullname)
-        @@students << u.fullname
+      if not (@@students.include? u.lengthy_name)
+        @@students << u.lengthy_name
       end
     end
   end
