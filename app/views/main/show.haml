@@ -67,7 +67,7 @@
           %p You haven't no pending requests...get searching!
         - @sent_requests.each do |r|
           = render :partial => "requests/sent_request", :locals => {:r => r}
-        %h6 Your past requrests:
+        %h6 Your past requests:
         - if @sent_past.empty? and @got_past.empty?
           %p You've never made any requests.
         - else
