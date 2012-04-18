@@ -21,6 +21,8 @@ $(document).ready(function() {
       $("#info_button").click()
     }, 200)
   }
+
+  /* Controlling hashes */
   hash = window.location.hash;
   hashes = {
     "#screws": "#A",
@@ -28,6 +30,7 @@ $(document).ready(function() {
     "#screwers": "#B",
     "#profile": "#C"
   }
+  /* Routes to correct tab based on hash */
   if(hashes[hash])
     $("a[href='"+hashes[hash]+"']").click();
   else
@@ -112,6 +115,12 @@ $(document).ready(function() {
   $("a[href='#C']").click(function() {
     window.location.hash = "profile"
   })
+
+  $(".info_in").keypress(function(e) {
+    if(e.which == 13) {
+      $(this).parents(".modal").find(".btn").click()
+    }
+  });
 
   /* ======= SCREWS TAB ===== */
   /* Allows for add client on enter keypress */
