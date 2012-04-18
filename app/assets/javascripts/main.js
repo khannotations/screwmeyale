@@ -37,10 +37,16 @@ $(document).ready(function() {
   loc = window.location.pathname;
   if(loc == "/") {
     $("li.home").addClass("active");
+    
   }
   else if (loc == "/about") {
     $("li.about").addClass("active");
     $("li.help").hide();
+  }
+  else if (loc.match(/\/match\//)) {
+    setTimeout(function() {
+      window.location.reload()
+    }, (60*60*1000)) // Reload page every hour to update screw options
   }
 
   /* Makes the slider of the intensity picker */
