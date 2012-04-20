@@ -352,7 +352,9 @@ $(document).ready(function() {
   }).error(ajax_error)
   /* Update post request from profile tab */
   $("#user_update").click(function() {
-    bod = $(this).parents(".profile");
+    t = this;
+    $(t).addClass("disabled")
+    bod = $(t).parents(".profile");
     $.post("/info", {
       gender: $(bod).find("#gender").val(),
       preference: $(bod).find("#preference").val(),
@@ -365,6 +367,7 @@ $(document).ready(function() {
         $("#user_info").fadeOut("fast", function() {
           $(this).html(data).fadeIn("fast")
           $("#success").html("Attributes updated!").parents(".alert").slideDown("fast")
+          $(t).removeClass("disabled")
         });
       }
     }).error(ajax_error)
