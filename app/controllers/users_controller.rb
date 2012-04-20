@@ -9,6 +9,8 @@ class UsersController < ApplicationController
   def info
     @user = User.find(session[:user_id])
     if @user
+      old_nickname = @user.nickname
+
       g = params[:gender].to_i
       p = params[:preference].to_i
       @user.gender = g if (1..2).include? g
@@ -17,14 +19,14 @@ class UsersController < ApplicationController
       @user.nickname = params[:nickname] if params[:nickname] and params[:nickname] != ""
       @user.active = true
       @user.save
-      flash[:success] = "Your preferences were updated. Welcome to Screw Me Yale!"
+
       render :partial => "main/user_info", :locals => {:u => @user}
-      if params[:nickname] and params[:nickname] != ""
+      if params[:nickname] and params[:nickname] != old_nickname
         User.make_names
       end
       return
     elsif
-      render :json => {:status => "fail", :flash => "Don't mess around!"}
+      render :json => {:status => "fail", :flash => "Couldn't update your preferences."}
     end
     redirect_to :root
   end

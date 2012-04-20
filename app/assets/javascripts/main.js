@@ -2,17 +2,22 @@ $(document).ready(function() {
   /* Gets all the students and stores them */
   var all = {}
   $.get("/all", function(data) {
-    all = data
-    $("#client_input").typeahead({
-      source: all,
-      items: 8,
-      matcher: function(item) {
-        // Replaces spaces with any character plus a space 
-        // facilitates finding of people with nicknames
-        return new RegExp(this.query.replace(" ", ".* "), "i").test(item)
-      }
-    })
-  })
+    if(data) {
+      all = data
+      $("#client_input").typeahead({
+        source: all,
+        items: 8,
+        matcher: function(item) {
+          // Replaces spaces with any character plus a space 
+          // facilitates finding of people with nicknames
+          return new RegExp(this.query.replace(" ", ".* "), "i").test(item)
+        }
+      })
+    }
+    else
+      ajax_error()
+    
+  }).error(ajax_error)
 
   /* If this is the user's first visit, the #info_button will be rendered,
   which triggers a modal for updating preferences and setting the user 'active' */
@@ -354,7 +359,14 @@ $(document).ready(function() {
       major: $(bod).find("#major").val(),
       nickname: $(bod).find("#nickname").val()
     }, function(data) {
-        $("#success").html("Attributes updated!").parents(".alert").slideDown("fast")
+      if(data.status == "fail")
+        $("#error").html(data.flash).parents(".alert").slideDown("fast");
+      else {
+        $("#user_info").fadeOut("fast", function() {
+          $(this).html(data).fadeIn("fast")
+          $("#success").html("Attributes updated!").parents(".alert").slideDown("fast")
+        });
+      }
     }).error(ajax_error)
   })
 

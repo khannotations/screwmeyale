@@ -52,14 +52,12 @@ class MainController < ActionController::Base
   def logout
     session[:user_id] = nil
     session[:cas_user] = nil
-    flash[:success] = "Successfully logged out."
+    flash[:success] = "See you again soon!!"
     redirect_to :root
   end
 
   def uncas
-    puts "\n\n\n\n\n\n", "UNCASSED"
     CASClient::Frameworks::Rails::Filter.logout(self)
-    #render :text => "true"
   end
 
 end
