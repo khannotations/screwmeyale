@@ -21,11 +21,12 @@ class UsersController < ApplicationController
       @user.save
 
       render :partial => "main/user_info", :locals => {:u => @user}
+
       if params[:nickname] and params[:nickname] != old_nickname
         User.make_names
       end
       return
-    elsif
+    else
       render :json => {:status => "fail", :flash => "Couldn't update your preferences."}
     end
     redirect_to :root
