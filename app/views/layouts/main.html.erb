@@ -8,8 +8,23 @@
   <%= javascript_include_tag "application" %>
   <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.8/themes/ui-lightness/jquery-ui.css" rel = "stylesheet" type = "text/css" />
   <%= csrf_meta_tags %>
+  <meta property="og:title" content="Screw Me Yale" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://screwmeyale.com" />
+  <meta property="og:image" content="http://screwmeyale.com/assets/favicon.ico" />
+  <meta property="og:site_name" content="Screw Me Yale" />
+  <meta property="og:description" content="Make sure your roommate's screw experience is nothing less than perfect! Screw Me Yale will match them with that special somebody in just a few clicks ;)" />
+  <meta property="fb:admins" content="651881494" />
 </head>
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=196239823792948";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
@@ -25,6 +40,9 @@
         <% if session[:cas_user] %>
           <li><a href="/logout">Logout</a></li>
         <% end %>
+        <li>
+          <div class="fb-like" data-href="http://screwmeyale.com" data-send="true" data-layout="button_count" data-width="70" data-show-faces="false" data-font="lucida grande" style="padding: 10px;"></div>
+        </li>
       </ul>
     </div>
   </div>

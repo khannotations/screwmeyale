@@ -7,12 +7,30 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <meta property="og:title" content="Screw Me Yale" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://screwmeyale.com" />
+  <meta property="og:image" content="http://screwmeyale.com/assets/favicon.ico" />
+  <meta property="og:site_name" content="Screw Me Yale" />
+  <meta property="og:description" content="Make sure your roommate's screw experience is nothing less than perfect! Screw Me Yale will match them with that special somebody in just a few clicks ;)" />
+
+  <meta property="fb:admins" content="651881494" />
 </head>
 <body>
-
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=196239823792948";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <div class="container">
   <div class="row">
     <div class="span10 offset1">
+      <div id="social">
+        <div class="fb-like" data-href="http://screwmeyale.com" data-send="false" data-layout="box_count" data-width="50" data-show-faces="false" data-colorscheme="dark"></div>
+      </div>
       <%= yield %>
     </div>
   </div>
