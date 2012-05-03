@@ -56,6 +56,9 @@ class MainController < ActionController::Base
     redirect_to :root
   end
 
+  def google
+  end
+
   def uncas
     CASClient::Frameworks::Rails::Filter.logout(self)
   end

@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en" xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en" xmlns:fb="http://ogp.me/ns/fb#"> <![endif]-->
+<!--[if gt IE 8]><!--><html xmlns:fb="http://ogp.me/ns/fb#"><!--<![endif]-->
 <head>
   <title>Screw Me Yale</title>
   <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -13,6 +17,8 @@
   <meta property="og:image" content="http://screwmeyale.com/assets/favicon.ico" />
   <meta property="og:site_name" content="Screw Me Yale" />
   <meta property="og:description" content="Make sure your roommate's screw experience is nothing less than perfect! Screw Me Yale will match them with that special somebody in just a few clicks ;)" />
+  <meta property="og:title" content="Screw Me Yale" />
+
 
   <meta property="fb:admins" content="651881494" />
 </head>
@@ -22,7 +28,7 @@
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=196239823792948";
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <div class="container">
