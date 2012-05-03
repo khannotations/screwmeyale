@@ -33,5 +33,6 @@ gem 'twitter-bootstrap-rails'
 
 gem 'jquery-rails'
 
+gem 'sendgrid'
 gem 'net-ldap'
 gem 'rubycas-client'
