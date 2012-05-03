@@ -57,6 +57,7 @@ class MainController < ActionController::Base
   end
 
   def google
+    render "google", :layout => false
   end
 
   def uncas
