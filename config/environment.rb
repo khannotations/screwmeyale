@@ -12,10 +12,11 @@ CASClient::Frameworks::Rails::Filter.configure(
 )
 
 ActionMailer::Base.smtp_settings = {
+  :enable_starttls_auto => true,
   :address => "smtp.sendgrid.net",
   :port => 25,
   :domain => "screwmeyale.com",
   :authentication => :plain,
-  :user_name => "rafi@screwmeyale.com",
+  :user_name => "fizzcan",
   :password => "screwmeyale"
 }

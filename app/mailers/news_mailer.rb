@@ -1,5 +1,5 @@
 class NewsMailer < ActionMailer::Base
-  include 'SendGrid'
+  include SendGrid
   default from: "mailman@screwmeyale.com"
 
   sendgrid_category :use_subject_lines
@@ -10,6 +10,7 @@ class NewsMailer < ActionMailer::Base
     @screwer = screwer
     sendgrid_category "Welcome"
     mail :to => user.email, :subject => "You've been screwed!"
+    puts "\n\n\nEmail sent to #{user.email} with #{screwer.fullname}\n\n\n"
   end
 
   def goodbye_message(user)
