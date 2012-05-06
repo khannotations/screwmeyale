@@ -6,16 +6,24 @@ class NewsMailer < ActionMailer::Base
   sendgrid_category :use_subject_lines
   sendgrid_enable   :ganalytics, :opentrack
 
-  def welcome_message(user, screwer)
-    @user = user
-    @screwer = screwer
+  def welcome_message(sc)
+    @screw = sc.screw
+    @screwer = sc.screwer
+    @event = sc.event
+
     sendgrid_category "Welcome"
+    # Sendgrid gem wasn't working for some reason, so posting manually.
+    # Get the body of the email to send.
     body = render_to_string :action => "welcome_message", :layout => false
-    client = HTTPClient.new
-    params = {:to => user.email, :toname => user.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body}", :api_user => "fizzcan", :api_key => "screwmeyale"}
+    
+    client = HTTPClient.new # New HTTP client
+
+    # The params -- REPLACE :TO WITH @user.email
+    params = {:to => "faiaz.khan@yale.edu", :toname => @screw.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body}", :api_user => "fizzcan", :api_key => "screwmeyale"}
     url = "https://sendgrid.com/api/mail.send.json"
     res = client.post(url, :body => params)
-    return true if res.body.message == "success"
+
+    return true if res.body == "{\"message\":\"success\"}"
     return false
   end
 

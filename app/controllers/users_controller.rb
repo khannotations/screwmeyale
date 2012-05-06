@@ -22,7 +22,6 @@ class UsersController < ApplicationController
 
       render :partial => "main/user_info", :locals => {:u => @user}
 
-      NewsMailer.welcome_message(@user, @user) # Just as a test. 
       if params[:nickname] and params[:nickname] != old_nickname
         User.make_names
       end

@@ -48,6 +48,7 @@ class ScrewconnectorsController < ApplicationController
     )
     if sc.errors.messages.empty?
       render :partial => "screwconnectors/main", :locals => {:sc => sc}
+      logger.error "\n\nEmail not sent!!\n\n" if not NewsMailer.welcome_message(sc)
       return
     end
     render :json => {:status => "fail", :flash => sc.errors.messages}
