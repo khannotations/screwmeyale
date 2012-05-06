@@ -1,15 +1,18 @@
 !!!
+- obj = "him/her"
+- obj = "her" if @screwer.gen == 2
+- obj = "him" if @screwer.gen == 1
 
 %html
   %body
     %h2 Hey #{@user.nickname}!
     %p 
       #{@screwer.fullname} is now setting you up on 
-      %a{:href => "//screwmeyale.com"} screwmeyale.com
+      %a{:href => "http://screwmeyale.com"} screwmeyale.com
       ! 
     %p 
-      If you'd like to stop him/her, go 
-      %a{:href => "//screwmeyale.com/#screwers"} here.
+      If you'd like to stop #{obj}, go 
+      %a{:href => "http://screwmeyale.com/#screwers"} here.
     %p To exciting and well-paired screws!
     %br
     %p Rafi Khan

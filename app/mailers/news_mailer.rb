@@ -1,5 +1,6 @@
 class NewsMailer < ActionMailer::Base
   include SendGrid
+
   default from: "mailman@screwmeyale.com"
 
   sendgrid_category :use_subject_lines
@@ -9,8 +10,13 @@ class NewsMailer < ActionMailer::Base
     @user = user
     @screwer = screwer
     sendgrid_category "Welcome"
-    mail :to => user.email, :subject => "You've been screwed!"
-    puts "\n\n\nEmail sent to #{user.email} with #{screwer.fullname}\n\n\n"
+    body = render_to_string :action => "welcome_message", :layout => false
+    client = HTTPClient.new
+    params = {:to => user.email, :toname => user.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body}", :api_user => "fizzcan", :api_key => "screwmeyale"}
+    url = "https://sendgrid.com/api/mail.send.json"
+    res = client.post(url, :body => params)
+    return true if res.body.message == "success"
+    return false
   end
 
   def goodbye_message(user)

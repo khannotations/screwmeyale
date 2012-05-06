@@ -45,6 +45,7 @@ GEM
       multi_json (~> 1.0)
     haml (3.1.4)
     hike (1.2.1)
+    httpclient (2.2.4)
     i18n (0.6.0)
     journey (1.0.3)
     jquery-rails (2.0.1)
@@ -148,6 +149,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
   haml
+  httpclient
   jquery-rails
   jquery-ui-rails
   mechanize
