@@ -19,42 +19,39 @@ $(document).ready(function() {
     
   }).error(ajax_error)
 
+  loc = window.location.pathname;
+
   /* If this is the user's first visit, the #info_button will be rendered,
   which triggers a modal for updating preferences and setting the user 'active' */
-  if (window.location.hash != "#screwers") {
+  if (loc !== "/screwers") {
     setTimeout(function() {
       $("#info_button").click()
     }, 200)
   }
 
-  /* Controlling hashes */
-  hash = window.location.hash;
-  hashes = {
-    "#screws": "#A",
-    "#requests": "#E",
-    "#screwers": "#B",
-    "#profile": "#C"
+  /* Controlling paths */
+
+  var paths = {
+    "/screws": "#A",
+    "/requests": "#E",
+    "/screwers": "#B",
+    "/profile": "#C"
   }
   /* Routes to correct tab based on hash */
-  if(hashes[hash])
-    $("a[href='"+hashes[hash]+"']").click();
-  else
-    window.location.hash = "";
-
   /* Sets the nav bar style depending on url */
-  loc = window.location.pathname;
-  if(loc == "/") {
+
+  if(paths[loc]) {
+    $("a[href='"+paths[loc]+"']").click();
     $("li.home").addClass("active");
-    
   }
-  else if (loc == "/about") {
+  else if (loc === "/about") {
     $("li.about").addClass("active");
     $("li.help").hide();
   }
   else if (loc.match(/\/match\//)) {
     setTimeout(function() {
       window.location.reload()
-    }, (60*60*1000)) // Reload page every hour to update screw options
+    }, (60*60*1000)) // Reload page every hour to update screw options (inefficient, i know)
   }
 
   /* Makes the slider of the intensity picker */
@@ -107,19 +104,21 @@ $(document).ready(function() {
   $("#logout").on("click", function() {
     $.get("/uncas");
   })
+  var back = false;
 
-  $("a[href='#A']").click(function() {
-    window.location.hash = "screws"
+  /* History management */
+
+  $("a.main-tab").click(function() {
+    if(!back)
+      window.history.pushState({view: $(this).attr("href")}, "Screw Me Yale",  $(this).html().toLowerCase().replace("/ /g", "")) // Strip, set as path
+    back = false
   })
-  $("a[href='#E']").click(function() {
-    window.location.hash = "requests"
-  })
-  $("a[href='#B']").click(function() {
-    window.location.hash = "screwers"
-  })
-  $("a[href='#C']").click(function() {
-    window.location.hash = "profile"
-  })
+
+  window.onpopstate = function(event) {
+    l = (event.state && event.state.view) || "";
+    back = true
+    $("a[href='"+l+"']").click();
+  }
 
   $(".info_in").keypress(function(e) {
     if(e.which == 13) {

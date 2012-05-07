@@ -4,15 +4,12 @@
 - obj = "him" if @screwer.gen == 1
 
 %html
-  %head
-    %title Welcome to Screw Me Yale!
-    %link{:href => "http://fonts.googleapis.com/css?family=Droid+Sans:400,700", :rel => "stylesheet", :type => "text/css"}
-  %body{:style => "font: 13px/20px 'Droid Sans', 'Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify;"}
+  %body{:style => "font: 13px/20px Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify; color: black;"}
     %table{:align => "center", :style => "width: 500px;"}
       %tbody
         %tr
           %td
-            %h1{:style => "font: bold 36px/50px;"} Hey #{@screw.fname}!
+            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@screw.fname}!
             %p{:style => "text-align: justify;"}
               This email is to let you know that you're being set up by #{@screwer.lengthy_name} on
               = succeed "!" do
@@ -20,8 +17,8 @@
             %p{:style => "text-align: justify;"}
               Don't panic, this isn't anything (too) dirty--#{@screwer.nickname} is using Screw Me Yale to find the perfect date for you for #{@event}.
               Of course, we don't want people being screwed willy-nilly, so if you don't want #{@screwer.nickname} to set you up, or you're busy that day, you can stop #{obj}
-              %a{:href => "http://screwmeyale.com/#screwers", :style => "color: #164373;"} here
-              (click on the 'screwers' tab).
+              = succeed "." do
+                %a{:href => "http://screwmeyale.com/screwers", :style => "color: #164373;"} here
             %p{:style => "text-align: justify;"} To exciting and well-paired screws for everybody!
             %img{:alt => "Screw Me Yale", :height => "30px;", :src => "http://screwmeyale.com/assets/screwmeyale.png", :style => "vertical-align: text-bottom; margin-bottom: 10px;"}
         %tr

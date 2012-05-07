@@ -19,6 +19,12 @@ Screwyale::Application.routes.draw do
   match 'request/delete' => "requests#delete", :via => [:post]
 
   match 'google7604c73f5d884a98.html' => "main#google"
+
+  match 'screwers' => "main#index"
+  match 'screws' => "main#index"
+  match 'profile' => "main#index"
+  match 'requests' => "main#index"
+
   root :to => 'main#index'
 
   # See how all your routes lay out with "rake routes"
