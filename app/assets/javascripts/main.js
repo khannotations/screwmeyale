@@ -25,7 +25,11 @@ $(document).ready(function() {
   which triggers a modal for updating preferences and setting the user 'active' */
   if (loc !== "/screwers") {
     setTimeout(function() {
-      $("#info_button").click()
+      $("#info").modal({
+        keyboard: false,
+        backdrop: "static"
+      })
+      .modal("show")
     }, 200)
   }
 

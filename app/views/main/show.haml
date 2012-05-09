@@ -77,7 +77,6 @@
             = render :partial => "requests/got_past", :locals => {:r => r}
 
 - if not @user.active
-  %a#info_button.hide{"data-toggle"=>"modal", :href => "#info"}
   #info.modal.hide.fade.in
     .modal-header
       %h2 Welcome to Screw Me Yale!
