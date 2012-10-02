@@ -1,0 +1,16 @@
+!!!
+- obj = "him/her"
+- obj = "her" if @screwer.gen == 2
+- obj = "him" if @screwer.gen == 1
+
+%html
+  %body{:style => "font: 13px/20px Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify; color: black;"}
+    %table{:align => "center", :style => "width: 500px;"}
+      %tbody
+        %tr
+          %td
+            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@screwer.fname}
+            %p{:style => "text-align: justify;"}
+              We're letting you know that your screw, #{@screw.lengthy_name}, who you tried to set up for #{@event} doesn't want you to set them up. You can no longer use Screw Me Yale to find dates for them. This could be simple miscommunication, but if you're trolling--stop. It's not funny.
+            = render :partial => "signoff"
+        = render :partial => "blasphemy"

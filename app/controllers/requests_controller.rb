@@ -9,7 +9,7 @@ class RequestsController < ApplicationController
     end
     r = Request.new(to_id: params[:to], from_id: params[:from])
     if r.save
-      # mail(r.to, new request)
+      # mail(r.to.screwer, new request)
       render :json => {:status => "success", :flash => "You've sent out a new request! We'll email you when that cutie's screwer responds ;)"}
       return
     else
@@ -58,7 +58,7 @@ class RequestsController < ApplicationController
         if to.event == from.event # If they're going to the same event, block both
           to.match_id = from.id
           to.save
-          to.cleanup
+          to.cleanup # delete all pending requests, etc
           #mail_accept(to, from)
         end
         from.cleanup

@@ -1,0 +1,22 @@
+- obj = "him/her"
+- obj = "her" if @screwer.gen == 2
+- obj = "him" if @screwer.gen == 1
+!!!
+%html
+  %body{:style => "font: 13px/20px Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify; color: black;"}
+    %table{:align => "center", :style => "width: 500px;"}
+      %tbody
+        %tr
+          %td
+            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@to.fname}!
+            %p{:style => "text-align: justify;"}
+              This email is to let you know that you're being set up by #{@screwer.lengthy_name} on
+              = succeed "!" do
+                %a{:href => "http://screwmeyale.com", :style => "color:#164373;"} screwmeyale.com
+            %p{:style => "text-align: justify;"}
+              Don't panic, this isn't anything (too) dirty--#{@screwer.nickname} is using Screw Me Yale to find the perfect date for you for #{@event}.
+              Of course, we don't want people being screwed willy-nilly, so if you don't want #{@screwer.nickname} to set you up, or you're busy that day, you can stop #{obj}
+              %a{:href => "http://screwmeyale.com/screwers", :style => "color: #164373;"} here
+              (click on the 'screwers' tab).
+            = render :partial => "signoff"
+        = render :partial => "blasphemy"

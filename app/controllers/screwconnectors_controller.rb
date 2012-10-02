@@ -48,7 +48,8 @@ class ScrewconnectorsController < ApplicationController
     )
     if sc.errors.messages.empty?
       render :partial => "screwconnectors/main", :locals => {:sc => sc}
-      logger.error "\n\nEmail not sent!!\n\n" if not NewsMailer.welcome_message(sc)
+      # Email new screw!
+      logger.error "\n\nNew screw email not sent!!\n\n" if not NewsMailer.screw_mail(sc, sc.screw, "new_screw")
       return
     end
     render :json => {:status => "fail", :flash => sc.errors.messages}
@@ -57,11 +58,14 @@ class ScrewconnectorsController < ApplicationController
 
   def destroy
     begin
-      Screwconnector.find(params[:sc_id]).destroy
+      s = Screwconnector.find(params[:sc_id]).destroy
       if params[:initiator] == "screw"
+        # Send warning-ish email to screwer
+        logger.error "\n\nUnwanted screwer mail not sent!!\n\n" if not NewsMailer.screw_mail(sc, sc.screwer, "unwanted_screw")
         render :json => {:status => "success", :flash => "Yeah! You don't need that kinda drama."}
       else
         flash[:success] = "Yeah! You don't need 'em anyway!"
+        # email not necessary
         render :json => {:status => "success"} # triggers page reload
       end
 

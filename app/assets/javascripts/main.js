@@ -262,7 +262,7 @@ $(document).ready(function() {
   })
   /* deny request */
   $(".deny").click(function() {
-    t = this
+    t = this;
     $.post("/request/deny", {
       r_id: $(t).attr("r_id")
     }, function(data) {
@@ -271,34 +271,34 @@ $(document).ready(function() {
         $(t).parents(".request").fadeOut(function(){
           $(t).parents(".request").remove();
           if (!$(".request").length) {
-            $($("#E h6")[0]).after("<p>You have no more requests :(</p>")
+            $($("#E h6")[0]).after("<p>You have no more requests :(</p>");
           }
-        })
+        });
       }
       else if (data.status == "fail")
-        $("#error").html(data.flash).parents(".alert").slideDown("fast")
+        $("#error").html(data.flash).parents(".alert").slideDown("fast");
 
-    }).error(ajax_error)
-  })
+    }).error(ajax_error);
+  });
   /* cancel request */
   $(".cancel").click(function() {
-    t = this
+    t = this;
     $.post("/request/delete", {
       r_id: $(t).attr("r_id")
     }, function(data) {
-      if (data.status == "success") {  
+      if (data.status == "success") {
         $("#success").html(data.flash).parents(".alert").slideDown("fast");
         $(t).parents(".sent_request").fadeOut(function() {
           $(t).parents(".sent_request").remove();
           if (!$(".sent_request").length) {
-            $($("#E h6")[0]).after("<p>No more pending requests :(</p>")
+            $($("#E h6")[0]).after("<p>No more pending requests :(</p>");
           }
-        })
+        });
       }
       else if (data.status == "fail")
-        $("#error").html(data.flash).parents(".alert").slideDown("fast")
-    }).error(ajax_error)
-  })
+        $("#error").html(data.flash).parents(".alert").slideDown("fast");
+    }).error(ajax_error);
+  });
 
   /* ======= SCREWER TAB ======= */
   /* Remove screwer */
@@ -317,8 +317,8 @@ $(document).ready(function() {
       else if (data.status == "fail") {
         $("#error").html(data.flash).parents(".alert").slideDown("fast");
       }
-    }).error(ajax_error)
-  })
+    }).error(ajax_error);
+  });
 
   /* ======= PROFILE TAB ======= */
   /* Profile tab error checking */
