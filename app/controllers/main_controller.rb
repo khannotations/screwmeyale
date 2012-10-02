@@ -6,6 +6,7 @@ class MainController < ActionController::Base
   def index
     if session[:cas_user]
       @user = User.find_by_netid(session[:cas_user])
+      # Test users:
       # @user = User.find_by_email("mackenzie.naert@yale.edu")
       # @user = User.find_by_email("derwin.aikens@yale.edu")
 
@@ -38,11 +39,12 @@ class MainController < ActionController::Base
   end
 
   # Gets a list of all the users, minus yourself (for the typeahead)
+  # Done as a seperate request to 
   def all
     if session[:user_id]
       u = User.find(session[:user_id])
       students = User.all_names.clone
-      students.delete(u.fullname)
+      students.delete(u.lengthy_name)
       render :json => students
       return
     end

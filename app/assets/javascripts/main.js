@@ -1,23 +1,24 @@
 $(document).ready(function() {
   /* Gets all the students and stores them */
-  var all = {}
+  var all = {};
   $.get("/all", function(data) {
     if(data) {
-      all = data
+      all = data;
+      console.log(all);
       $("#client_input").typeahead({
         source: all,
         items: 8,
         matcher: function(item) {
-          // Replaces spaces with any character plus a space 
+          // Replaces spaces with any character plus a space
           // facilitates finding of people with nicknames
-          return new RegExp(this.query.replace(" ", ".* "), "i").test(item)
+          return new RegExp(this.query.replace(" ", ".* "), "i").test(item);
         }
-      })
+      });
     }
     else
-      ajax_error()
+      ajax_error();
     
-  }).error(ajax_error)
+  }).error(ajax_error);
 
   loc = window.location.pathname;
 
@@ -29,8 +30,8 @@ $(document).ready(function() {
         keyboard: false,
         backdrop: "static"
       })
-      .modal("show")
-    }, 200)
+      .modal("show");
+    }, 200);
   }
 
   /* Controlling paths */
@@ -40,7 +41,7 @@ $(document).ready(function() {
     "/requests": "#E",
     "/screwers": "#B",
     "/profile": "#C"
-  }
+  };
   /* Routes to correct tab based on hash */
   /* Sets the nav bar style depending on url */
 
@@ -54,8 +55,8 @@ $(document).ready(function() {
   }
   else if (loc.match(/\/match\//)) {
     setTimeout(function() {
-      window.location.reload()
-    }, (60*60*1000)) // Reload page every hour to update screw options (inefficient, i know)
+      window.location.reload();
+    }, (60*60*1000)); // Reload page every hour to update screw options (inefficient, i know)
   }
 
   /* Makes the slider of the intensity picker */
@@ -71,10 +72,10 @@ $(document).ready(function() {
     ": \"Tonight's gonna be a good night ;)\"",
     ": \"Straight up DTF\"",
     ": \"Blackout. By 10 p.m.\""
-  ]
+  ];
   var slider_value = 6;
   $("#amount").html(slider_value);
-  $("#amount_caption").html(captions[slider_value-1])
+  $("#amount_caption").html(captions[slider_value-1]);
 
   $("#intensity").slider({
     animate: "normal",
@@ -84,49 +85,49 @@ $(document).ready(function() {
     value: slider_value,
     slide: function(event, ui) {
       $("#amount").html(ui.value);
-      $("#amount_caption").html(captions[ui.value-1])
+      $("#amount_caption").html(captions[ui.value-1]);
     }
   });
 
   /* ============== EVENT HANDLERS ================*/
   /* IMPORTANT NOTE: below, any reference to 'client' should be read as 'screwconnector' */
-  var person = {}
+  var person = {};
 
   /* Makes alerts disappear on click anywhere */
   $("body").click(function() {
-    $(".alert").slideUp("fast")
-  })
+    $(".alert").slideUp("fast");
+  });
 
   $(".help").click(function() {
     $("#help").slideToggle();
-  })
+  });
   $("#help_close").click(function() {
-    $("#help").slideUp("fast")
-  })
+    $("#help").slideUp("fast");
+  });
 
   /* To logout of CAS */
   $("#logout").on("click", function() {
     $.get("/uncas");
-  })
+  });
   var back = false;
 
   /* History management */
 
   $("a.main-tab").click(function() {
     if(!back)
-      window.history.pushState({view: $(this).attr("href")}, "Screw Me Yale",  $(this).html().toLowerCase().replace("/ /g", "")) // Strip, set as path
-    back = false
-  })
+      window.history.pushState({view: $(this).attr("href")}, "Screw Me Yale",  $(this).html().toLowerCase().replace("/ /g", "")); // Strip, set as path
+    back = false;
+  });
 
   window.onpopstate = function(event) {
     l = (event.state && event.state.view) || "";
-    back = true
+    back = true;
     $("a[href='"+l+"']").click();
-  }
+  };
 
   $(".info_in").keypress(function(e) {
     if(e.which == 13) {
-      $(this).parents(".modal").find(".btn").click()
+      $(this).parents(".modal").find(".btn").click();
     }
   });
 
@@ -137,16 +138,16 @@ $(document).ready(function() {
       $("#add_client").click();
     }
     else {
-      $("#client_box").removeClass("error")
+      $("#client_box").removeClass("error");
     }
-  })
+  });
   /* Removes modal target and re-adds it after error checking (see below) */
   $("#client_input").focus(function() {
-    $("#add_client").attr("href", "")
+    $("#add_client").attr("href", "");
   });
   /* Event handlers on 'screws' tab */
   $("#A").click(function(e) {
-    t = e.target
+    t = e.target;
     /* Deleting a client */
     if ($(t).hasClass("delete_client")) {
       $.post("/delete", {
@@ -156,64 +157,64 @@ $(document).ready(function() {
           window.location.reload();
         }
         else if(data.status == "fail")
-          $("#error").html(data.flash).parents(".alert").slideDown("fast")
-      }).error(ajax_error)
+          $("#error").html(data.flash).parents(".alert").slideDown("fast");
+      }).error(ajax_error);
     }
     /* Adding a screwconnector from the screws tab (triggers modal) */
     else if ($(t).attr("id") == "add_client") {
-      var val = $("#client_input").val()
+      var val = $("#client_input").val();
       if(all.indexOf(val) != -1) {
         $.post("/whois", {name: val}, function(data) {
           if(data.status == "success") {
-            person = data.person
+            person = data.person;
             /* Sets values in modal */
             $("#screw_name").html(person.name+"!").show();
-            $("#screw_id").val(person.id)
-            $("#screw_select").html(person.select)
-            $("#client_input").val("").attr("placeholder", "Your roommate/suitemate/loved one")
+            $("#screw_id").val(person.id);
+            $("#screw_select").html(person.select);
+            $("#client_input").val("").attr("placeholder", "Your roommate/suitemate/loved one");
           }
           else if (data.status == "inactive") {
             $("#client_cancel").click();
-            $("#info_button").click();  
+            $("#info_button").click();
           }
           else if (data.status == "fail") {
-            $("#error").html(data.flash).parents(".alert").slideDown("fast")
+            $("#error").html(data.flash).parents(".alert").slideDown("fast");
           }
           
-        }).error(ajax_error)
+        }).error(ajax_error);
         /* Sets the target of the 'Add!' button to trigger a modal (for error checking). Without this line, the modal won't trigger */
-        $(t).attr("href", "#new_client")
+        $(t).attr("href", "#new_client");
       }
       else {
-        $("#client_box").addClass("error")
-        $("#client_input").focus().val("").attr("placeholder", "A valid name, please")
+        $("#client_box").addClass("error");
+        $("#client_input").focus().val("").attr("placeholder", "A valid name, please");
       }
     }
     /* Removes the target set above -- for error checking) */
     
     else if ($(t).attr("id") == "client_submit") {
       /* Creating a screwconnector from the modal */
-      bod = $(t).parents(".modal")
+      bod = $(t).parents(".modal");
       $.post("/new", {
         screw_id: $("#screw_id").val(),
         intensity: $("#intensity").slider("value"),
         event: $($(bod).find("select[name='event']")[0]).val()
       }, function(data) {
         if (data.status == "fail") {
-          $("#error").html(data.flash).parents(".alert").slideDown("fast")
+          $("#error").html(data.flash).parents(".alert").slideDown("fast");
         }
         else {
-          $("#success").html("Nice, you've got a new screw!").parents(".alert").slideDown("fast")
+          $("#success").html("Nice, you've got a new screw!").parents(".alert").slideDown("fast");
           if(!$(".client").length)
-            $("#screws_container").html(data) 
+            $("#screws_container").html(data);
           else
-            $("#screws_container").append(data) 
+            $("#screws_container").append(data);
           /* If the screwconnector that was created does not have its preferences (gender, major, gender preference, etc) set, this line triggers the modal that allows the user to set that */
           //if($(".client").last().find(".screw_match").length)
-            $(".client").last().find(".screw_match").click();
+          $(".client").last().find(".screw_match").click();
         }
 
-      }).error(ajax_error)
+      }).error(ajax_error);
     }
 
     else if ($(t).hasClass("screw_match")) {
@@ -225,21 +226,21 @@ $(document).ready(function() {
       bod = $(t).parents(".modal").find(".modal-body")[0];
 
       if(validate(t)) {
-        $(t).addClass("disabled")
+        $(t).addClass("disabled");
         $.post("/sc/info", {
           id: $(t).attr("p_id"),
           gender: $(bod).find("#gender").val(),
           preference: $(bod).find("#preference").val(),
           major: $(bod).find("#major").val(),
-          nickname: $(bod).find("#nickname").val() 
+          nickname: $(bod).find("#nickname").val()
         }, function(data) {
           if(data.status == "success") {
             window.location.reload();
           }
           else if (data.status == "fail") {
-            $("#error").html(data.flash).parents(".alert").fadeIn("fast")
+            $("#error").html(data.flash).parents(".alert").fadeIn("fast");
           }
-        }).error(ajax_error)
+        }).error(ajax_error);
       }
     }
   });
@@ -322,15 +323,15 @@ $(document).ready(function() {
   /* ======= PROFILE TAB ======= */
   /* Profile tab error checking */
   $(".info_in").focus(function() {
-    $(this).parents(".control-group").removeClass("error")
-  })
+    $(this).parents(".control-group").removeClass("error");
+  });
   /* Modal at the beginning */
   $("#info_submit").click(function(e) {
     t = this;
     if(validate(t)) {
       bod = $(t).parents(".modal").find(".modal-body")[0];
       $.post("/info", {
-        gender: $(bod).find("#gender").val(), 
+        gender: $(bod).find("#gender").val(),
         preference: $(bod).find("#preference").val(),
         major: $(bod).find("#major").val(),
         nickname: $(bod).find("#nickname").val()
@@ -339,7 +340,7 @@ $(document).ready(function() {
           $("#error").html(data.flash).parents(".alert").slideDown("fast");
           setTimeout(function() {
             $("#info_submit").click();
-          }, 500)
+          }, 500);
         }
         else {
           $("#user_info").html(data);

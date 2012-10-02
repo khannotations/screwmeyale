@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
     "<select name='event'>\
     <option value='#{college} Screw 2012'>#{college} 2012</option>"
     if self.year == "'15"
-      text += "<option value='Freshman Screw 2012'>Freshman 2012</option>"
+      text += "<option value='Freshman Screw 2013'>Freshman 2013</option>"
     end
     text += "</select>"
     text
@@ -81,11 +81,10 @@ class User < ActiveRecord::Base
   def User.make_names
     @@students = []
     User.all.each do |u|
-      if not (@@students.include? u.lengthy_name)
-        @@students << u.lengthy_name
-      end
+      @@students << u.lengthy_name if not (@@students.include? u.lengthy_name)
     end
   end
+
   @@students = []
   User.make_names
 

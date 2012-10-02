@@ -10,4 +10,19 @@ Mail
   On self delete
     to screwer -- warning
 
-write utility to ping site
+write utility to ping site NOT DOING IT
+
+
+
+======
+
+Set up mailings -- above
+
+Upgrade 
+  Heroku?
+  Sendgrid?
+
+Rescrape and remake databases DONE
+
+is there any way to backup a heroku database?
+handle multiple people with the same name
