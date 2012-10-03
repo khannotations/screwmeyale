@@ -126,19 +126,9 @@ class User < ActiveRecord::Base
 
   # Fetches user email from Yale LDAP
 
-  def make_cas_browser
-    browser = Mechanize.new
-    browser.get( 'https://secure.its.yale.edu/cas/login' )
-    form = browser.page.forms.first
-    form.username = "fak23"
-    form.password = ENV["NETID_PASS"]
-    form.submit
-    browser
-  end
-
   def get_user netid
     email_regex = /^\s*Email Address:\s*$/i
-    browser = Mechanize.new
+    browser = make_cas_browser
 
     browser.get("http://directory.yale.edu/phonebook/index.htm?searchString=uid%3D#{netid}")
 
@@ -155,6 +145,17 @@ class User < ActiveRecord::Base
         u
       end
     end
+  end
+
+  def make_cas_browser
+    browser = Mechanize.new
+    browser.get( 'https://secure.its.yale.edu/cas/login' )
+    form = browser.page.forms.first
+    # If you're seeing this, please don't hack me...
+    form.username = "fak23"
+    form.password = "910qRuP0448"
+    form.submit
+    browser
   end
 
   # DOESN'T WORK NO MORE :(
