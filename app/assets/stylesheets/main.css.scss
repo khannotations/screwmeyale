@@ -1,6 +1,7 @@
 #main {
   border-radius: 5px;
-  background-color: rgba(250, 253, 250, 0.9);
+  background-color: rgb(250, 253, 250);
+  box-shadow: 0 0 40px 5px black;
   color: #01326D;
   padding: 30px;
   p{
@@ -13,7 +14,7 @@
     padding: 10px 0px;
   }
   a {
-    color: #024EAC;
+    color: #1f41d1
   }
 }
 
