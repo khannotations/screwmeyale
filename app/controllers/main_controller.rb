@@ -8,8 +8,8 @@ class MainController < ActionController::Base
       @user = User.find_by_netid(session[:cas_user])
       # Test users:
       # @user = User.find_by_email("hanmyo.oo@yale.edu")
-      session[:cas_user] = ""
-      @user = User.find_by_email("derwin.aikens@yale.edu")
+      # session[:cas_user] = ""
+      # @user = User.find_by_email("derwin.aikens@yale.edu")
 
       if not @user
         @user = User.ldap(session[:cas_user])
