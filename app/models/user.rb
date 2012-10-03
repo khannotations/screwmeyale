@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   require 'net/ldap'
+  require 'mechanize'
 
   has_many :screwconnectors, :foreign_key => "screw_id" # connectors in which user is screw
   has_many :screwerconnectors, :class_name => "Screwconnector", :foreign_key => "screwer_id" # connectors in which user is screwer
@@ -124,6 +125,39 @@ class User < ActiveRecord::Base
   end
 
   # Fetches user email from Yale LDAP
+
+  def make_cas_browser
+    browser = Mechanize.new
+    browser.get( 'https://secure.its.yale.edu/cas/login' )
+    form = browser.page.forms.first
+    form.username = "fak23"
+    form.password = ENV["NETID_PASS"]
+    form.submit
+    browser
+  end
+
+  def get_user netid
+    email_regex = /^\s*Email Address:\s*$/i
+    browser = Mechanize.new
+
+    browser.get("http://directory.yale.edu/phonebook/index.htm?searchString=uid%3D#{netid}")
+
+    browser.page.search('tr').each do |tr|
+      field = tr.at('th').text
+      value = tr.at('td').text.strip
+      case field
+      when email_regex
+        u =  User.where(email: value).first
+        if u
+          u.netid = netid
+          u.save
+        end
+        u
+      end
+    end
+  end
+
+  # DOESN'T WORK NO MORE :(
   def User.ldap netid
     email = ""
     begin
@@ -134,7 +168,7 @@ class User < ActiveRecord::Base
       p = ldap.search(:base => b, :filter => f, :return_result => true).first
 
       email = p['mail']
-      logger.debug :text => email
+      logger.debug :text => "LDAP EMAIL: --#{email}--"
     rescue Exception => e
       logger.debug :text => e
       logger.debug :text => "*** ERROR with LDAP"
