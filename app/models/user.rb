@@ -126,13 +126,13 @@ class User < ActiveRecord::Base
 
   # Fetches user email from Yale LDAP
 
-  def get_user netid
+  def User.get_user netid
     email_regex = /^\s*Email Address:\s*$/i
-    browser = make_cas_browser
-
+    browser = User.make_cas_browser
     browser.get("http://directory.yale.edu/phonebook/index.htm?searchString=uid%3D#{netid}")
-
+    u = nil
     browser.page.search('tr').each do |tr|
+      puts "tr!"
       field = tr.at('th').text
       value = tr.at('td').text.strip
       case field
@@ -142,12 +142,12 @@ class User < ActiveRecord::Base
           u.netid = netid
           u.save
         end
-        u
       end
     end
+    u
   end
 
-  def make_cas_browser
+  def User.make_cas_browser
     browser = Mechanize.new
     browser.get( 'https://secure.its.yale.edu/cas/login' )
     form = browser.page.forms.first
