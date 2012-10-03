@@ -1,16 +1,19 @@
 Mail
-  On screw_create
+  On screw_create DONE!
     to screw
-  On screw_match
+  On new_request DONE!
+    to from.screwer 
+  On request_accepted DONE!
     to from.screwer
-    to from.screw ?
-    to to.screw ?
-  On screw_reject
+    to to.screwer
+  On screw_reject NOT DOING IT
     to from.screwer
-  On self delete
+  On self delete NOT DOING IT 
     to screwer -- warning
 
 write utility to ping site NOT DOING IT
+
+Find list of screw dates
 
 
 
@@ -25,4 +28,5 @@ Upgrade
 Rescrape and remake databases DONE
 
 is there any way to backup a heroku database?
+
 handle multiple people with the same name

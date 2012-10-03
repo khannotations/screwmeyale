@@ -61,7 +61,7 @@ class ScrewconnectorsController < ApplicationController
       s = Screwconnector.find(params[:sc_id]).destroy
       if params[:initiator] == "screw"
         # Send warning-ish email to screwer
-        logger.error "\n\nUnwanted screwer mail not sent!!\n\n" if not NewsMailer.screw_mail(sc, sc.screwer, "unwanted_screw")
+        logger.error "\n\nUnwanted screwer mail not sent!!\n\n" if not NewsMailer.screw_mail(sc, sc.screwer, "unwanted_screwer")
         render :json => {:status => "success", :flash => "Yeah! You don't need that kinda drama."}
       else
         flash[:success] = "Yeah! You don't need 'em anyway!"

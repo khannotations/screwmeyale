@@ -1,0 +1,25 @@
+!!!
+%html
+  %body{:style => "font: 13px/20px Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify; color: black;"}
+    %table{:align => "center", :style => "width: 500px;"}
+      %tbody
+        %tr
+          %td
+            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@to.nickname}!
+            %p{:style => "text-align: justify;"}
+              You just accepted a request to screw 
+              %b #{@from_screw.fullname} 
+              with 
+              %b #{@to_screw.fullname} 
+              for 
+              %b #{@event}!
+            - if not @same_event
+              %p{:style => "text-align: justify;"}
+                Remember, this setup is for so your work isn't done quite yet—
+                %b #{@to_screw.nickname} is still unmatched for #{@to_event}.
+            %p{:style => "text-align: justify;"}
+              The person you want to get in touch with is #{@from.fullname} (the person who was setting #{@from_screw.nickname} up) to make plans for the night of #{@event}. You can reach them at
+              %a{:href=>"#{@from.email}"}#{@from.email},
+              and they'll probably hit you up soon, too.
+            = render :partial => "signoff"
+        = render :partial => "blasphemy"

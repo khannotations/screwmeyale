@@ -1,6 +1,3 @@
-- obj = "him/her"
-- obj = "her" if @screwer.gen == 2
-- obj = "him" if @screwer.gen == 1
 !!!
 %html
   %body{:style => "font: 13px/20px Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify; color: black;"}
@@ -8,15 +5,27 @@
       %tbody
         %tr
           %td
-            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@to.fname}!
+            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@to.nickname}!
             %p{:style => "text-align: justify;"}
-              This email is to let you know that you're being set up by #{@screwer.lengthy_name} on
-              = succeed "!" do
-                %a{:href => "http://screwmeyale.com", :style => "color:#164373;"} screwmeyale.com
+              You've got a new request on Screw Me Yale! Somebody wants to set up your screw 
+              %b #{@to_screw.fullname} 
+              with 
+              %b #{@from_screw.fullname} 
+              for 
+              %b #{@event}
+              —what joyous news!
+            - if not @same_event
+              %p{:style => "text-align: justify;"}
+                Let's be clear, the invitation is for 
+                %b #{@event}, 
+                so please 
+                %b MAKE SURE
+                #{@to_screw.nickname} is free that day and willing to go. Remember that this still leaves #{@to_screw.nickname} unmatched for #{@to_event}—you've still got work to do!
             %p{:style => "text-align: justify;"}
-              Don't panic, this isn't anything (too) dirty--#{@screwer.nickname} is using Screw Me Yale to find the perfect date for you for #{@event}.
-              Of course, we don't want people being screwed willy-nilly, so if you don't want #{@screwer.nickname} to set you up, or you're busy that day, you can stop #{obj}
-              %a{:href => "http://screwmeyale.com/screwers", :style => "color: #164373;"} here
-              (click on the 'screwers' tab).
+              Now if you think #{@to_screw.nickname} and #{@from_screw.nickname} are a good match, you're just one step away from a successful screw—just go to 
+              %a{:href => "http://screwmeyale.com/requests", :style => "color: #164373;"} ScrewMeYale.com,
+              click on the 'Requests' tab and hit accept! 
+            %p{:style => "text-align: justify;"}
+              If you're not a such a fan and want to nip this potential relationship in the bud (you debbie downer you!), simply hit 'reject' on the page—and the long search continues.
             = render :partial => "signoff"
         = render :partial => "blasphemy"

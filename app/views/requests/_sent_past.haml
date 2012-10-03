@@ -8,9 +8,6 @@
     %b= r.from.event
     and
     - if r.accepted == true
-      - if r.to.event == r.from.event
-        %b{:style => "color: green"} they were set up!
-      - else
-        %b{:style => "color: green"} it was accepted!
+      %b{:style => "color: green"} it was accepted!
     - elsif r.accepted == false
-      %b{:style => "color: red"} rejected. :(
+      %b{:style => "color: red"} it was rejected. :(

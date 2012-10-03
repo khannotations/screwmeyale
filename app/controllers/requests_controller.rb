@@ -9,8 +9,10 @@ class RequestsController < ApplicationController
     end
     r = Request.new(to_id: params[:to], from_id: params[:from])
     if r.save
-      # mail(r.to.screwer, new request)
-      render :json => {:status => "success", :flash => "You've sent out a new request! We'll email you when that cutie's screwer responds ;)"}
+      
+      logger.error "\n\nNew request email not sent!!\n\n" if not NewsMailer.new_request(r)
+      
+      render :json => {:status => "success", :flash => "You've sent out a new request! We'll email you when that cutie's screwer accepts ;)"}
       return
     else
       render :json => {:status => "fail", :flash => "Please stop messing around"}
@@ -54,12 +56,13 @@ class RequestsController < ApplicationController
 
         from.match_id = to._id
         from.save
-        #mail_accept(from, to)
+        logger.error "\n\nRequest accepted email not sent!!\n\n" if not NewsMailer.request_accepted(r)
+        
         if to.event == from.event # If they're going to the same event, block both
           to.match_id = from.id
           to.save
           to.cleanup # delete all pending requests, etc
-          #mail_accept(to, from)
+          # Mail will be handled by request_accepted
         end
         from.cleanup
         flash[:success] = "Congrats, you've successfully screwed #{to.screw.nickname} with #{from.screw.fullname} for #{from.event.upcase}! Check your email to find out who the other screwer is!"

@@ -38,6 +38,9 @@
 
     .tab-content
       #A.tab-pane.active
+        - if not @got_requests.empty?
+          %h2 You have new requests!! 
+          %p Click on the 'Requests' tab to check them out
         = render :partial => "screwconnectors/screws", :locals => {:screws => @screws}
         #slider
       #B.tab-pane

@@ -1,0 +1,23 @@
+!!!
+%html
+  %body{:style => "font: 13px/20px Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify; color: black;"}
+    %table{:align => "center", :style => "width: 500px;"}
+      %tbody
+        %tr
+          %td
+            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@from.nickname}!
+            %p{:style => "text-align: justify;"}
+              Fantastic news—your request to screw 
+              %b #{@from_screw.fullname} 
+              with 
+              %b #{@to_screw.fullname} 
+              for 
+              %b #{@event} 
+              was accepted!
+            %p{:style => "text-align: justify;"}
+              Your work is nearly over. Just get in touch with #{@to.fullname} (the person who was setting #{@to_screw.nickname} up) to arrange a creative / funny / embarrassing meet up the night of. You can reach them at
+              %a{:href=>"#{@to.email}"}#{@to.email}.
+            %p{:style => "text-align: justify;"} 
+              Great job, and good night to all four of you (but mostly #{@to_screw.nickname} and #{@from_screw.nickname})!
+            = render :partial => "signoff"
+        = render :partial => "blasphemy"
