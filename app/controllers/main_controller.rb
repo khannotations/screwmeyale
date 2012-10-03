@@ -12,7 +12,7 @@ class MainController < ActionController::Base
       # @user = User.find_by_email("derwin.aikens@yale.edu")
 
       if not @user
-        @user = User.ldap(session[:cas_user])
+        @user = User.get_user(session[:cas_user])
         if not @user
           session[:cas_user] = nil
           flash[:error] = "Sorry, but this app only works for Yale undergrads listed on the Yale Face Book. \
