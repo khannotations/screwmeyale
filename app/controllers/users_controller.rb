@@ -41,36 +41,15 @@ class UsersController < ApplicationController
       render :json => {:status => "inactive"}
       return
     end
-    name = params[:name];
-    if name != ""
-      n = /"(\w|-)+" /.match(name)
-      if n
-        nickname = n[0][1..(n[0].length-3)] # leaves off starting quote mark, trailing space and trailing quote mark
-        name = name.sub(n[0], "").split(" ") # removes nickname
-      else
-        name = name.split(" ")
-      end
-      # Now 'name' is an array 
-      fname = name[0]
-      lname = name[1, 5].join(" ") # the rest
-
-      if !nickname
-        @user = User.where(fname: fname, lname: lname).first
-      else
-        @user = User.where(fname: fname, lname: lname, nickname: nickname).first
-      end
-      p = {}
-      if @user
-        p[:name] = @user.fullname
-        p[:id] = @user.id
-        p[:select] = @user.make_select 
-        render :json => {:status => "success", :person => p}
-      else # should never happen
-        render :json => {:status => "fail", :flash => "No such user >:("}
-      end
-    else
-      render :json => {:status => "fail", :flash => "No parameters"}
+    @user = User.identify(params[:name])
+    p = {}
+    if @user
+      p[:name] = @user.fullname
+      p[:id] = @user.id
+      p[:select] = @user.make_select 
+      render :json => {:status => "success", :person => p}
+    else # should never happen
+      render :json => {:status => "fail", :flash => "No such user >:("}
     end
   end
-
 end

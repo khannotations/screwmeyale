@@ -12,11 +12,12 @@ class ScrewconnectorsController < ApplicationController
       redirect_to :root
       return 
     end
-
-    @all_screws = @sc.find_all_screws # All screwconnectors that are matches
-    @all_matches = @sc.find_all_matches # All users that are matches
-    @int_matches = @sc.find_int # Matches by similar intensity
-    @event_matches = @sc.find_event # Matches by same event
+    
+    everything = @sc.find_everything
+    @all_screws = everything[0]
+    @int_matches = everything[1] # Matches by similar intensity
+    @event_matches = everything[2] # Matches by same event
+    @all_matches = everything[3] # All users that are matches
     
   end
 

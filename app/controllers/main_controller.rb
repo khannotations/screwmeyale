@@ -41,7 +41,7 @@ class MainController < ActionController::Base
   end
 
   # Gets a list of all the users, minus yourself (for the typeahead)
-  # Done as a seperate request to 
+  # Done as a seperate request to speed up initial page load
   def all
     if session[:user_id]
       u = User.find(session[:user_id])

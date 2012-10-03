@@ -12,13 +12,13 @@
               with 
               %b #{@to_screw.fullname} 
               for 
-              %b #{@event}!
+              %b #{@short_event}!
             - if not @same_event
               %p{:style => "text-align: justify;"}
-                Remember, this setup is for so your work isn't done quite yet—
-                %b #{@to_screw.nickname} is still unmatched for #{@to_event}.
+                Remember, your work isn't done quite yet—
+                %b #{@to_screw.nickname} is still unmatched for #{@to_event.gsub(/ 20\d\d/, "")}.
             %p{:style => "text-align: justify;"}
-              The person you want to get in touch with is #{@from.fullname} (the person who was setting #{@from_screw.nickname} up) to make plans for the night of #{@event}. You can reach them at
+              The person you want to get in touch with is #{@from.fullname} (the person who was setting #{@from_screw.nickname} up) to make plans for the night of #{@short_event}. You can reach them at
               %a{:href=>"#{@from.email}"}#{@from.email},
               and they'll probably hit you up soon, too.
             = render :partial => "signoff"

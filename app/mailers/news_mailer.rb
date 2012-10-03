@@ -24,7 +24,7 @@ class NewsMailer < ActionMailer::Base
 
   end
 
-  def unwanted_screwer(sc, to, view)
+  def unwanted_screwer(sc)
     sendgrid_category "Unwanted Screwer"
 
     @screw = sc.screw
@@ -48,6 +48,7 @@ class NewsMailer < ActionMailer::Base
     @event = r.from.event # The actual event
     @to_event = r.to.event # The other event 
     @same_event = (@event == @to_event)
+    @short_event = r.from.short_event # the event with the year removed
 
     body = render_to_string :action => "new_request", :layout => false
     subject = "A New Request!"
@@ -68,6 +69,7 @@ class NewsMailer < ActionMailer::Base
     @to_event = r.to.event
 
     @same_event = (@event == @to_event)
+    @short_event = r.from.short_event # the event with the year removed
 
     body_from = render_to_string :action => "request_accepted_from", :layout => false
     subject_from = "Your request has been accepted!"
@@ -87,10 +89,9 @@ class NewsMailer < ActionMailer::Base
     client = HTTPClient.new # New HTTP client
 
     # :to will be to_email
-    params = {:to => ME, :toname => to_name, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => subject, :html => html, :api_user => "fizzcan", :api_key => "screwmeyale"}
+    params = {:to => ME, :toname => to_name, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => subject, :html => "#{html}", :api_user => "fizzcan", :api_key => "screwmeyale"}
     url = "https://sendgrid.com/api/mail.send.json"
-    puts "putting client"
-    p client
+
     res = client.post(url, :body => params)
     puts "success!"
     return (res.body == "{\"message\":\"success\"}")
