@@ -13,20 +13,19 @@ Mail
 
 write utility to ping site NOT DOING IT
 
-Find list of screw dates
-
-
 
 ======
 
-Set up mailings -- above
 
 Upgrade 
   Heroku?
-  Sendgrid?
+  Sendgrid?  NOT NECESSARY
 
 Rescrape and remake databases DONE
 
-is there any way to backup a heroku database?
+is there any way to backup a heroku database? NOT NECESSARY
 
 handle multiple people with the same name
+enable short event name
+remove people being screwed by the same person
+system for handling when screws are over

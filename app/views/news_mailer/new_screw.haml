@@ -1,6 +1,8 @@
 - obj = "him/her"
 - obj = "her" if @screwer.gen == 2
 - obj = "him" if @screwer.gen == 1
+
+
 !!!
 %html
   %body{:style => "font: 13px/20px Helvetica Neue', Tahoma, sans-serif; background-color: #FAFAFA; width: 100%; text-align: justify; color: black;"}
@@ -8,7 +10,7 @@
       %tbody
         %tr
           %td
-            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@screw.fname}!
+            %h1{:style => "font: bold 36px/50px; color: #01326D;"} Hey #{@screw.nickname}!
             %p{:style => "text-align: justify;"}
               This email is to let you know that you're being set up by #{@screwer.lengthy_name} on
               = succeed "!" do

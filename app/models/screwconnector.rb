@@ -22,6 +22,10 @@ class Screwconnector < ActiveRecord::Base
     end
   end
 
+  def short_event
+    this.event.gsub("/ 20%d%d/", "")
+  end
+
 
   def find_all_screws
     p = self.screw

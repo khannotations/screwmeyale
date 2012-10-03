@@ -251,17 +251,17 @@ $(document).ready(function() {
 
   /* accept request */
   $(".accept").click(function() {
-    t = this
+    t = this;
     $.post("/request/accept", {
       r_id: $(t).attr("r_id")
     }, function(data) {
       if (data.status == "success")
         window.location.reload();
       else if (data.status == "fail")
-        $("#error").html(data.flash).parents(".alert").slideDown("fast")
+        $("#error").html(data.flash).parents(".alert").slideDown("fast");
 
-    }).error(ajax_error)
-  })
+    }).error(ajax_error);
+  });
   /* deny request */
   $(".deny").click(function() {
     t = this;
@@ -348,18 +348,18 @@ $(document).ready(function() {
           $("#user_info").html(data);
           $("#success").html("Welcome to Screw Me Yale! Start setting someone up by typing their name in the input box below!").parents(".alert").slideDown("fast");
         }
-      }).error(ajax_error)
+      }).error(ajax_error);
     }
     else {
       setTimeout(function() {
-        $("#info_button").click()
-      }, 500)
+        $("#info_button").click();
+      }, 500);
     }
-  }).error(ajax_error)
+  }).error(ajax_error);
   /* Update post request from profile tab */
   $("#user_update").click(function() {
     t = this;
-    $(t).addClass("disabled")
+    $(t).addClass("disabled");
     bod = $(t).parents(".profile");
     $.post("/info", {
       gender: $(bod).find("#gender").val(),
@@ -371,13 +371,13 @@ $(document).ready(function() {
         $("#error").html(data.flash).parents(".alert").slideDown("fast");
       else {
         $("#user_info").fadeOut("fast", function() {
-          $(this).html(data).fadeIn("fast")
-          $("#success").html("Attributes updated!").parents(".alert").slideDown("fast")
-          $(t).removeClass("disabled")
+          $(this).html(data).fadeIn("fast");
+          $("#success").html("Attributes updated!").parents(".alert").slideDown("fast");
+          $(t).removeClass("disabled");
         });
       }
-    }).error(ajax_error)
-  })
+    }).error(ajax_error);
+  });
 
   /* ========== /match page =============== */
 
@@ -385,7 +385,7 @@ $(document).ready(function() {
   $(".match_link").click(function() {
     t = this;
     /* Set attributes on the submit button */
-    $("#match_submit").attr("to_id", $(this).attr("sc_id"))
+    $("#match_submit").attr("to_id", $(this).attr("sc_id"));
 
     $("#match_modal").find(".match_name").html($(t).attr("name"));
 
@@ -397,7 +397,7 @@ $(document).ready(function() {
     $(bod).find(".match_picture").attr("src", $(t).attr("picture"));
     $(bod).find(".match_major").html($(t).attr("major"));
 
-  })
+  });
   /* The submit button from request confirmation modal */
   $("#match_submit").click(function() {
     $.post("/request", {
@@ -405,13 +405,13 @@ $(document).ready(function() {
       from: $(this).attr("from_id")
     }, function(data) {
       if(data.status == "success") {
-        $("#success").html(data.flash).parents(".alert").slideDown("fast")
+        $("#success").html(data.flash).parents(".alert").slideDown("fast");
       }
       else if (data.status == "fail") {
-        $("#error").html(data.flash).parents(".alert").slideDown("fast")
+        $("#error").html(data.flash).parents(".alert").slideDown("fast");
       }
-    }).error(ajax_error)
-  })
+    }).error(ajax_error);
+  });
   /* The matches who don't have people currently screwing them */
   $(".unmatch_link").click(function() {
     t = this;
@@ -425,26 +425,26 @@ $(document).ready(function() {
     $(bod).find(".match_text").html($(t).attr("text"));
     $(bod).find(".match_names").html($(t).attr("names"));
 
-  })
-})
+  });
+});
 
 /* ========== HELPER FUNCTIONS ========= */
 
 function ajax_error() {
-  $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast")
+  $("#error").html("An error occurred -- try refreshing the page. If the problem persists, please contact the webmaster or try again later :(").parents(".alert").slideDown("fast");
 }
 
 /* Validates the standard _info partial */
 function validate(obj) {
 
   bod = $(obj).parents(".modal").find(".modal-body")[0];
-  nick = $(bod).find("#nickname")
-  major = $(bod).find("#major")
-  flag = true
-  if($(major).val() == "") {
-    flag = false
-    $(major).parents(".control-group").addClass("error")
-    $(major).attr("placeholder", "A major! (Undecided if you're unsure)")
+  nick = $(bod).find("#nickname");
+  major = $(bod).find("#major");
+  flag = true;
+  if($(major).val() === "") {
+    flag = false;
+    $(major).parents(".control-group").addClass("error");
+    $(major).attr("placeholder", "A major! (Undecided if you're unsure)");
 
   }
   /*
@@ -454,5 +454,5 @@ function validate(obj) {
     $(nick).attr("placeholder", "A valid nickname, please!")
   }
   */
-  return flag
+  return flag;
 }

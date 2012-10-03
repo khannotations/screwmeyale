@@ -47,9 +47,14 @@ class ScrewconnectorsController < ApplicationController
       event: params[:event]
     )
     if sc.errors.messages.empty?
-      render :partial => "screwconnectors/main", :locals => {:sc => sc}
       # Email new screw!
-      logger.error "\n\nNew screw email not sent!!\n\n" if not NewsMailer.screw_mail(sc, sc.screw, "new_screw")
+      if NewsMailer.new_screw(sc)
+        render :partial => "screwconnectors/main", :locals => {:sc => sc}
+      else
+        sc.destroy # destroy the screw if emails aren't working
+        render :json => {:status => "fail", :flash => "There's was an email problem--please contact the web admin."}
+        logger.error "\n\nNew screw email not sent!!\n\n" 
+      end
       return
     end
     render :json => {:status => "fail", :flash => sc.errors.messages}
@@ -57,19 +62,19 @@ class ScrewconnectorsController < ApplicationController
   end
 
   def destroy
-    begin
-      s = Screwconnector.find(params[:sc_id]).destroy
+
+    sc = Screwconnector.find(params[:sc_id]).destroy
+    if sc
       if params[:initiator] == "screw"
         # Send warning-ish email to screwer
-        logger.error "\n\nUnwanted screwer mail not sent!!\n\n" if not NewsMailer.screw_mail(sc, sc.screwer, "unwanted_screwer")
+        logger.error "\n\nUnwanted screwer mail not sent!!\n\n" if not NewsMailer.unwanted_screwer(sc)
         render :json => {:status => "success", :flash => "Yeah! You don't need that kinda drama."}
       else
         flash[:success] = "Yeah! You don't need 'em anyway!"
         # email not necessary
         render :json => {:status => "success"} # triggers page reload
       end
-
-    rescue
+    else 
       render :json => {:status => "fail", :flash => "You tryna mess with me??"}
     end
   end

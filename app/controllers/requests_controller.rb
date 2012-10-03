@@ -9,11 +9,10 @@ class RequestsController < ApplicationController
     end
     r = Request.new(to_id: params[:to], from_id: params[:from])
     if r.save
-      
-      logger.error "\n\nNew request email not sent!!\n\n" if not NewsMailer.new_request(r)
-      
+
+      logger.error "\n\nNew request email not sent!!\n\n" if not NewsMailer.new_request(r)      
       render :json => {:status => "success", :flash => "You've sent out a new request! We'll email you when that cutie's screwer accepts ;)"}
-      return
+
     else
       render :json => {:status => "fail", :flash => "Please stop messing around"}
     end
@@ -56,6 +55,7 @@ class RequestsController < ApplicationController
 
         from.match_id = to._id
         from.save
+
         logger.error "\n\nRequest accepted email not sent!!\n\n" if not NewsMailer.request_accepted(r)
         
         if to.event == from.event # If they're going to the same event, block both

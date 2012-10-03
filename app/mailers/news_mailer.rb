@@ -1,66 +1,65 @@
 class NewsMailer < ActionMailer::Base
+  ME = "faiaz.khan@yale.edu"
+  
   include SendGrid
 
   default from: "mailman@screwmeyale.com"
-
   sendgrid_category :use_subject_lines
   sendgrid_enable   :ganalytics, :opentrack
 
-  # sc is screwconnector object, to is the full name to go in the "to" field and view is hte view to render
+  # sc is screwconnector object, to is the full name to go in the "to" field and view is the view to render
   # view is either "new_screw" or "unwanted_screwer"
-  def screw_mail(sc, to, view)
-    acceptable_views = %w(new_screw unwanted_screwer)
-    raise "Unknown view #{view}" if not acceptable_views.include? view
+  def new_screw(sc)
+    sendgrid_category "New Screw"
+
     @screw = sc.screw
     @screwer = sc.screwer
     @event = sc.event
 
-    # Make category from view
-    cat = view.gsub("/_/", " ").titlecase
-    sendgrid_category cat
-    # Sendgrid gem wasn't working for some reason, so posting manually.
-    # Get the body of the email to send.
-    body = render_to_string :action => view, :layout => false
-    
-    client = HTTPClient.new # New HTTP client
+    subject = "You've been screwed!"
 
-    # to will be to.email
-    params = {:to => "faiaz.khan@yale.edu", :toname => to.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body}", :api_user => "fizzcan", :api_key => "screwmeyale"}
-    url = "https://sendgrid.com/api/mail.send.json"
-    res = client.post(url, :body => params)
+    body = render_to_string :action => "new_screw", :layout => false
 
-    return true if res.body == "{\"message\":\"success\"}"
-    return false
+    NewsMailer.mail(@screw.email, @screw.fullname, subject, body)
+
+  end
+
+  def unwanted_screwer(sc, to, view)
+    sendgrid_category "Unwanted Screwer"
+
+    @screw = sc.screw
+    @screwer = sc.screwer
+    @event = sc.event
+
+    subject = "Some sour news"
+
+    body = render_to_string :action => "unwanted_screwer", :layout => false
+    NewsMailer.mail(@screwer.email, @screwer.fullname, subject, body)
+
   end
 
   # Email sent when a new request is generated
   def new_request(r)
-    # @from = r.from.screwer # This is the request's creator, SHOULD NOT BE MENTIONED IN THIS EMAIL EVER
+    sendgrid_category "New Request"
+
     @from_screw = r.from.screw # This is the request's creator's screw
     @to = r.to.screwer # this is who the email is to
     @to_screw = r.to.screw # Who does the person want to set up?
-    @event = r.from.event # 
-    @to_event = r.to.event
+    @event = r.from.event # The actual event
+    @to_event = r.to.event # The other event 
     @same_event = (@event == @to_event)
 
-    sendgrid_category "New Request"
-
     body = render_to_string :action => "new_request", :layout => false
-    
-    client = HTTPClient.new # New HTTP client
+    subject = "A New Request!"
 
-    # to will be @to.email
-    params = {:to => "faiaz.khan@yale.edu", :toname => @to.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body}", :api_user => "fizzcan", :api_key => "screwmeyale"}
-    url = "https://sendgrid.com/api/mail.send.json"
-    res = client.post(url, :body => params)
-
-    return true if res.body == "{\"message\":\"success\"}"
-    return false
+    NewsMailer.mail(@to.email, @to.fullname, subject, body)
   end
 
   # When someone accepts a screw, there are two emails sent, one to each screwer, revealing the other's identity.
   # There is a special case when they're going to the same event, which is handled.
   def request_accepted(r)
+    sendgrid_category "Request Accepted"
+
     @from = r.from.screwer # This is the request's creator
     @from_screw = r.from.screw # This is that person's screw
     @to = r.to.screwer # This is who accepted the screw / who the email is to
@@ -70,64 +69,32 @@ class NewsMailer < ActionMailer::Base
 
     @same_event = (@event == @to_event)
 
-    sendgrid_category "Request Accepted"
-
     body_from = render_to_string :action => "request_accepted_from", :layout => false
+    subject_from = "Your request has been accepted!"
+
     body_to = render_to_string :action => "request_accepted_to", :layout => false
+    subject_to = "You just accepted a request!"
     
-    client = HTTPClient.new # New HTTP client
+    result_from = NewsMailer.mail(@from.email, @from.fullname, subject_from, body_from)
+    result_to = NewsMailer.mail(@to.email, @to.fullname, subject_to, body_to)
 
-    # to will be @from.email
-    params_from = {:to => "faiaz.khan@yale.edu", :toname => @from.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body_from}", :api_user => "fizzcan", :api_key => "screwmeyale"}
-    # to will be @to.email
-    params_to = {:to => "faiaz.khan@yale.edu", :toname => @to.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body_to}", :api_user => "fizzcan", :api_key => "screwmeyale"}
-    url = "https://sendgrid.com/api/mail.send.json"
-
-    res_from = client.post(url, :body => params_from)
-    res_to = client.post(url, :body => params_to)
-
-    return true if res_from.body == "{\"message\":\"success\"}" and res_to.body == "{\"message\":\"success\"}"
-    return false
+    return (result_from and result_to)
   end
 
+  # Sendgrid gem wasn't working for some reason, so posting manually.
+  # returns true or false
+  def NewsMailer.mail(to_email, to_name, subject, html)
+    client = HTTPClient.new # New HTTP client
 
-  # def new_screw(sc)
-  #   @screw = sc.screw
-  #   @screwer = sc.screwer
-  #   @event = sc.event
-
-  #   sendgrid_category "New Screw"
-  #   # Sendgrid gem wasn't working for some reason, so posting manually.
-  #   # Get the body of the email to send.
-  #   body = render_to_string :action => "new_screw", :layout => false
-    
-  #   client = HTTPClient.new # New HTTP client
-
-  #   # The params @screw.email
-  #   params = {:to => "faiaz.khan@yale.edu", :toname => @screw.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "You've been screwed!", :html => "#{body}", :api_user => "fizzcan", :api_key => "screwmeyale"}
-  #   url = "https://sendgrid.com/api/mail.send.json"
-  #   res = client.post(url, :body => params)
-
-  #   return true if res.body == "{\"message\":\"success\"}"
-  #   return false
-  # end
-
-  # def unwanted_screwer(sc)
-  #   @screw = sc.screw
-  #   @screwer = sc.screwer
-  #   @event = sc.event
-
-  #   sendgrid_category "Unwanted Screwer"
-
-  #   body = render_to_string :action => "unwanted_screwer", :layout => false
-
-  #   client = HTTPClient.new # New HTTP client
-  #   params = {:to => "faiaz.khan@yale.edu", :toname => @screwer.fullname, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => "Your help was unwanted", :html => "#{body}", :api_user => "fizzcan", :api_key => "screwmeyale"}
-  #   url = "https://sendgrid.com/api/mail.send.json"
-  #   res = client.post(url, :body => params)
-  #   return true if res.body == "{\"message\":\"success\"}"
-  #   return false
-  # end
+    # :to will be to_email
+    params = {:to => ME, :toname => to_name, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => subject, :html => html, :api_user => "fizzcan", :api_key => "screwmeyale"}
+    url = "https://sendgrid.com/api/mail.send.json"
+    puts "putting client"
+    p client
+    res = client.post(url, :body => params)
+    puts "success!"
+    return (res.body == "{\"message\":\"success\"}")
+  end
 
   def goodbye_message(user)
     sendgrid_disable :ganalytics
