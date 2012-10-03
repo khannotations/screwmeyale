@@ -1,10 +1,12 @@
 .request{:style => "margin-bottom: 10px; "}
   %span{:style => "display: inline-block; margin-right: 10px; float: left;"}
+    %h4{:style=>"margin: 5px 0;"} On #{r.created_at.strftime("%A, %B %d")}:
     %b{:style => "line-height: 100px;"} For 
     = render :partial => "screwconnectors/match_sc", :locals => {:sc => r.to}
     %b{:style => "line-height: 100px;"} from 
     = render :partial => "screwconnectors/match_sc", :locals => {:sc => r.from}
-    %b{:style => "line-height: 100px;"} for #{r.from.event}
+    %b{:style => "line-height: 40px;"} 
+      for #{r.from.event}
   .btn-group{:style => "clear:none; "}
     .btn.btn-big.btn-primary.accept{"r_id" => r.id} I'll take it!
     .btn.btn-danger.btn-big.deny{"r_id" => r.id} REJECT

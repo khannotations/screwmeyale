@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     end
     @user = User.identify(params[:name])
     p = {}
-    if @user
+    if @user and @user != me
       p[:name] = @user.fullname
       p[:id] = @user.id
       p[:select] = @user.make_select 

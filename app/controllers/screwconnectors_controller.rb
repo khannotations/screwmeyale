@@ -12,7 +12,7 @@ class ScrewconnectorsController < ApplicationController
       redirect_to :root
       return 
     end
-    
+
     everything = @sc.find_everything
     @all_screws = everything[0]
     @int_matches = everything[1] # Matches by similar intensity
