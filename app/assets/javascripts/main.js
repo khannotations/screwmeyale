@@ -1,10 +1,12 @@
 $(document).ready(function() {
+  /* Firefox quick-fix */
+  if (navigator.userAgent.match(/firefox/i))
+    alert("Sorry, this app doesn't work well on Firefox. Please try Chrome or Safari—NOT Internet Explorer");
   /* Gets all the students and stores them */
   var all = {};
   $.get("/all", function(data) {
     if(data) {
       all = data;
-      console.log(all);
       $("#client_input").typeahead({
         source: all,
         items: 8,

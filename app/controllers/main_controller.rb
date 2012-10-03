@@ -7,14 +7,16 @@ class MainController < ActionController::Base
     if session[:cas_user]
       @user = User.find_by_netid(session[:cas_user])
       # Test users:
-      # @user = User.find_by_email("mackenzie.naert@yale.edu")
-      # @user = User.find_by_email("derwin.aikens@yale.edu")
+      # @user = User.find_by_email("hanmyo.oo@yale.edu")
+      session[:cas_user] = ""
+      @user = User.find_by_email("derwin.aikens@yale.edu")
 
       if not @user
         @user = User.ldap(session[:cas_user])
         if not @user
           session[:cas_user] = nil
-          flash[:error] = "Sorry, but this app is only for Yale undergrads."
+          flash[:error] = "Sorry, but this app only works for Yale undergrads listed on the Yale Face Book. \
+          If you'd like to be added, contact Rafi!"
           redirect_to :root
           return
         end
