@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
     'Statistics', 'Theater Studies', 'Undecided', "Women's, Gender, and Sexuality Studies"]
 
   @@college_array = {"Davenport College" => "DC", "Ezra Stiles College" => "ES", "Saybrook College" => "SY",
-    "Calhoun College" => "CC", "Jonathan Edwards College" => "JE", "Branford College" => "BC",
+    "Calhoun College" => "CC", "Jonathan Edwards College" => "JE", "Branford College" => "BR",
     "Timothy Dwight College" => "TD", "Silliman College" => "SM", "Berkeley College" => "BK", 
     "Morse College" => "MC", "Trumbull College" => "TC", "Pierson College" => "PC" }
 

@@ -19,6 +19,7 @@
         %a.close{"data-dismiss" => "alert"} &times;
         %span#success
 .well
+  %h1 <%= "#{Rails.env.production?}" %>
   .tabbable
     %ul.nav.nav-tabs
       %li.active
