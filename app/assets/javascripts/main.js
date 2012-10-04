@@ -164,7 +164,7 @@ $(document).ready(function() {
     }
     /* Adding a screwconnector from the screws tab (triggers modal) */
     else if ($(t).attr("id") == "add_client") {
-      var val = $("#client_input").val();
+      var val = $.trim($("#client_input").val());
       if(all.indexOf(val) != -1) {
         $.post("/whois", {name: val}, function(data) {
           if(data.status == "success") {
@@ -233,8 +233,8 @@ $(document).ready(function() {
           id: $(t).attr("p_id"),
           gender: $(bod).find("#gender").val(),
           preference: $(bod).find("#preference").val(),
-          major: $(bod).find("#major").val(),
-          nickname: $(bod).find("#nickname").val()
+          major: $.trim($(bod).find("#major").val()),
+          nickname: $.trim($(bod).find("#nickname").val())
         }, function(data) {
           if(data.status == "success") {
             window.location.reload();

@@ -89,7 +89,7 @@ class NewsMailer < ActionMailer::Base
     client = HTTPClient.new # New HTTP client
 
     # :to will be to_email
-    params = {:to => ME, :toname => to_name, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => subject, :html => "#{html}", :api_user => "fizzcan", :api_key => "screwmeyale"}
+    params = {:to => to_email, :toname => to_name, :from => "mailman@screwmeyale.com", :fromname => "Yale Screw", :subject => subject, :html => "#{html}", :api_user => "fizzcan", :api_key => "screwmeyale"}
     url = "https://sendgrid.com/api/mail.send.json"
 
     res = client.post(url, :body => params)
