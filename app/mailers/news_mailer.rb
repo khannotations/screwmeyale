@@ -1,5 +1,5 @@
 class NewsMailer < ActionMailer::Base
-  ME = "faiaz.khan@yale.edu"
+  ME = "rafi.khan@yale.edu"
   
   include SendGrid
 

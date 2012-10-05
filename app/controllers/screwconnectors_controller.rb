@@ -7,7 +7,7 @@ class ScrewconnectorsController < ApplicationController
     @user = User.find(session[:user_id])
     @sc = Screwconnector.includes(:screw, :screwer).where(id: params[:id]).first
     if not @user or not @sc or not @sc.screwer == @user
-      puts "SHOW", @user.inspect, @sc.inspect, "\n\n\n\n\n"
+      logger.error "SHOW", @user.inspect, @sc.inspect, "\n\n\n\n\n"
       flash[:error] = "Sorry, you can't access that url."
       redirect_to :root
       return 
@@ -91,7 +91,7 @@ class ScrewconnectorsController < ApplicationController
       @user.gender = g if (1..2).include? g
       @user.preference = p if (1..3).include? p
       @user.major = params[:major] if params[:major] and params[:major] != ""
-      @user.nickname = params[:nickname] if params[:nickname] and params[:nickname] != ""
+      @user.nickname = params[:nickname].gsub(/\s/, "") if params[:nickname] and params[:nickname] != ""
       @user.save
       flash[:success] = "Preferences updated...now get matching!"
       render :json => {:status => "success"} # triggers page reload
