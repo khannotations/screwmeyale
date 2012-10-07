@@ -29,13 +29,15 @@ class ScrewconnectorsController < ApplicationController
       render :json => {:status => "fail", :flash => "Sorry, you can only screw up to five people simultaneously. Match one of them first and try again."}
       return
     end
-    sc = Screwconnector.where(
+    sc = Screwconnector.includes(:screw).where(
       screw_id: params[:screw_id],
       event: params[:event]
       ).first
     if sc
-      if sc.match_id != 0 # Already matched
-        render :json => {:status => "fail", :flash => "Someone has already screwed #{sc.screw.nickname} for #{sc.event}...better be quicker next time!"}
+      if sc.match_id == 0 # Already matched
+        puts "\n\n\n\nin sc!\n\n\n\n\n"
+        render :json => {:status => "fail", :flash => "Someone is already screwing #{sc.screw.nickname} for #{sc.event}...better be quicker next time!"}
+        
       elsif sc.screwer_id == user_id
         render :json => {:status => "fail", :flash => "You're already screwing #{sc.screw.nickname} for #{sc.event}!"}
       end
