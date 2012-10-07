@@ -23,7 +23,7 @@ class Screwconnector < ActiveRecord::Base
   end
 
   def short_event
-    self.event.gsub(/ 20\d\d/, "")
+    self.event.gsub(/( College| 20\d\d)/, "")
   end
 
   # returns an array of [screws, intensity, event, all]
