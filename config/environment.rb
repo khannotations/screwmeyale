@@ -20,3 +20,5 @@ ActionMailer::Base.smtp_settings = {
   :user_name => "fizzcan",
   :password => "screwmeyale"
 }
+
+ENV['CAS_PASS'] = "910qTuP0448"

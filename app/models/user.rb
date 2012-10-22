@@ -179,7 +179,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Fetches user email from Yale LDAP
+  # Fetches user email from Yale directory
 
   def User.get_user netid
     email_regex = /^\s*Email Address:\s*$/i
@@ -208,7 +208,7 @@ class User < ActiveRecord::Base
     form = browser.page.forms.first
     # If you're seeing this, please don't hack me...
     form.username = "fak23"
-    form.password = "910qRuP0448"
+    form.password = ENV['CAS_PASS']
     form.submit
     browser
   end
@@ -216,7 +216,7 @@ class User < ActiveRecord::Base
   # SETUP 
   User.make_names
 
-  
+  # Fetches user email from Yale LDAP
   # DOESN'T WORK NO MORE :(
   def User.ldap netid
     email = ""
