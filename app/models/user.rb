@@ -47,10 +47,20 @@ class User < ActiveRecord::Base
     'Sociology', 'South Asian Studies', 'Spanish', 'Special Divisional Major', 
     'Statistics', 'Theater Studies', 'Undecided', "Women's, Gender, and Sexuality Studies"]
 
-  @@college_array = {"Davenport College" => "DC", "Ezra Stiles College" => "ES", "Saybrook College" => "SY",
-    "Calhoun College" => "CC", "Jonathan Edwards College" => "JE", "Branford College" => "BR",
-    "Timothy Dwight College" => "TD", "Silliman College" => "SM", "Berkeley College" => "BK", 
-    "Morse College" => "MC", "Trumbull College" => "TC", "Pierson College" => "PC" }
+  @@college_array = {
+    "Berkeley College" => "BK", 
+    "Branford College" => "BR",
+    "Calhoun College" => "CC", 
+    "Davenport College" => "DC", 
+    "Ezra Stiles College" => "ES",
+    "Jonathan Edwards College" => "JE", 
+    "Morse College" => "MC", 
+    "Pierson College" => "PC",
+    "Saybrook College" => "SY",
+    "Silliman College" => "SM", 
+    "Timothy Dwight College" => "TD", 
+    "Trumbull College" => "TC"
+  }
 
 
   # All sent requests

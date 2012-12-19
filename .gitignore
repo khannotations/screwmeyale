@@ -14,3 +14,6 @@
 /log/*.log
 /tmp
 *.txt
+
+# CAS authentication password
+cas_credentials.yml
