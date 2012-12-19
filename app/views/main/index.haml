@@ -1,12 +1,13 @@
 .span6#main
   %h2 Welcome to the best screw experience of someone else's life.
-  %div{:style=>"padding: 20px; text-align: center; border: 1pt solid #888; color: #970b0a;"}
-    %h1 This site is live! 
-    %p
-      %b
-        If you screw someone, they 
-        %span{:style => "text-decoration: underline;"} will get an email
-        and others will see the people you set up on the "screw market". 
+  -# 
+    %div{:style=>"padding: 20px; text-align: center; border: 1pt solid #888; color: #970b0a;"}
+      %h1 This site is live! 
+      %p
+        %b
+          If you screw someone, they 
+          %span{:style => "text-decoration: underline;"} will get an email
+          and others will see the people you set up on the "screw market". 
   %br
   - if flash[:error]
     .alert.alert-error.fade.in
