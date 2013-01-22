@@ -205,7 +205,7 @@ class User < ActiveRecord::Base
       case field
       when email_regex
         puts "USER: "
-        u =  User.where(email: value).first
+        u = User.where(email: value).first
         p u
         if u
           u.netid = netid
@@ -221,7 +221,6 @@ class User < ActiveRecord::Base
     browser = Mechanize.new
     browser.get( 'https://secure.its.yale.edu/cas/login' )
     form = browser.page.forms.first
-    # If you're seeing this, please don't hack me...
     form.username = ENV['CAS_NETID']
     form.password = ENV['CAS_PASS']
     form.submit
