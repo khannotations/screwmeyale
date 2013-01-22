@@ -1,7 +1,7 @@
 desc "Read file and make users"
 task :populate => :environment do
 
-  f = File.open("yale2012-2013.txt", "r")
+  f = File.open("yale2011-2012.txt", "r")
 
   f.each do |line|
     opts = line.split(" | ")
