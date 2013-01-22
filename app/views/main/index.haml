@@ -3,6 +3,8 @@
   -# 
     %div{:style=>"padding: 20px; text-align: center; border: 1pt solid #888; color: #970b0a;"}
       %h1 This site is live! 
+      %h2= ENV['CAS_NETID']
+      %h2= ENV['CAS_PASS']
       %p
         %b
           If you screw someone, they 
@@ -21,9 +23,7 @@
     %h1= "Logged in as #{session[:cas_user]}"
   %p We know Screw season can be a hard time for everybody—-the frantic searches, the desperate conversations with strangers, the last-minute, pleading phone calls.
   %p 
-    Well now, you can make sure that at least your roommate has a great time at screw, and save yourself a lot of hassle. With 
-    %a{:href => "/"} Screw Me Yale
-    you can find and match screw dates easier than ever.
+    Well now, you can make sure that at least your roommate has a great time at screw, and save yourself a lot of hassle. With Screw Me Yale you can find and match screw dates easier than ever.
   #bottom
     %a.btn.btn-success{:href => "/auth"} CAS Login
     %br

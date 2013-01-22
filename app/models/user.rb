@@ -195,18 +195,23 @@ class User < ActiveRecord::Base
     email_regex = /^\s*Email Address:\s*$/i
     browser = User.make_cas_browser
     browser.get("http://directory.yale.edu/phonebook/index.htm?searchString=uid%3D#{netid}")
+    p browser.page
     u = nil
     browser.page.search('tr').each do |tr|
       puts "tr!"
       field = tr.at('th').text
       value = tr.at('td').text.strip
+      puts field, value
       case field
       when email_regex
+        puts "USER: "
         u =  User.where(email: value).first
+        p u
         if u
           u.netid = netid
           u.save
         end
+        puts "DONE"
       end
     end
     u
@@ -217,7 +222,7 @@ class User < ActiveRecord::Base
     browser.get( 'https://secure.its.yale.edu/cas/login' )
     form = browser.page.forms.first
     # If you're seeing this, please don't hack me...
-    form.username = "fak23"
+    form.username = ENV['CAS_NETID']
     form.password = ENV['CAS_PASS']
     form.submit
     browser

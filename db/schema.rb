@@ -39,13 +39,13 @@ ActiveRecord::Schema.define(:version => 20120403163326) do
     t.string   "college"
     t.string   "year"
     t.string   "picture"
-    t.string   "netid",      :default => ""
+    t.string   "netid"
     t.integer  "gender",     :default => 0
     t.integer  "preference", :default => 0
-    t.string   "major",      :default => ""
+    t.string   "major",      :default => "Undecided"
     t.boolean  "active",     :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
 end
