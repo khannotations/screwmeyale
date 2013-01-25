@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
     text = 
     "<select name='event'>\
     <option value='#{college} Screw 2012'>#{college} 2012</option>"
-    if self.year == "'16"
+    if self.year == "2016"
       text += "<option value='Freshman Screw 2013'>Freshman 2013</option>"
     end
     text += "</select>"
