@@ -20,4 +20,6 @@
 */credentials.yml
 test/*
 TODO
+*.DS_Store
+
 
