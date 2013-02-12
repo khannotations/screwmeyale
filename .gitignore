@@ -16,4 +16,4 @@
 *.txt
 
 # CAS authentication password
-# cas_credentials.yml
+*/cas_credentials.yml
