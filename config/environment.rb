@@ -11,9 +11,12 @@ CASClient::Frameworks::Rails::Filter.configure(
   :username_session_key => :cas_user
 )
 
-credentials = YAML.load_file("#{Rails.root}/config/cas_credentials.yml")
+credentials = YAML.load_file("#{Rails.root}/config/credentials.yml")
 ENV['CAS_NETID'] = credentials['username']
 ENV['CAS_PASS'] = credentials['password']
+ENV['SENDGRID_NAME'] = credentials['sendgrid_name']
+ENV['SENDGRID_PASS'] = credentials['sendgrid_password']
+
 
 ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => true,
@@ -21,7 +24,7 @@ ActionMailer::Base.smtp_settings = {
   :port => 25,
   :domain => "screwmeyale.com",
   :authentication => :plain,
-  :user_name => "fizzcan",
-  :password => "screwmeyale"
+  :user_name => ENV['SENDGRID_NAME'],
+  :password => ENV['SENDGRID_PASS']
 }
 
