@@ -10,7 +10,7 @@ Note: to run this on your own, you must create a file `config/credentials.yml`. 
     sendgrid_name: <sendgrid username>
     sendgrid_password: <sendgrid password>
 
-Of course, the Sendgrid stuff is only if you want the mailer to work. Enjoy!
+See `config/environment.rb` for more info. Of course, the Sendgrid stuff is only if you want the mailer to work. Enjoy!
 
 
 
