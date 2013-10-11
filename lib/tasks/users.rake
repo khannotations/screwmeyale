@@ -1,6 +1,5 @@
 desc "Scrape Yale Facebook and get all users"
 task :get_users => :environment do
-
   require 'rubygems'
   require 'open-uri'
   require 'nokogiri'
@@ -9,81 +8,61 @@ task :get_users => :environment do
   agent = Mechanize.new
   agent.user_agent_alias = "Mac Safari"
   url = "https://students.yale.edu/facebook/PhotoPage"
-  new_url = "https://students.yale.edu/facebook/ChangeCollege?newOrg=Yale%20College"
+  new_url = "https://students.yale.edu/facebook/ChangeCollege?newOrg="
+  all_url = "https://students.yale.edu/facebook/PhotoPage?currentIndex=-1&numberToGet=-1"
   agent.get(url)
 
-  f = Nokogiri::HTML(open(url))
-
   form = agent.page.forms.first
-  form.username = "fak23"
-  form.password = "mathgeek142"
+  STDOUT.print "Enter your Yale NetID: "
+  form.username = STDIN.gets.strip
+  STDOUT.print "Enter your NetID Password: "
+  form.password = STDIN.gets.strip
   form.submit
+  
+  colleges = {
+    "Berkeley%20College" => "Berkeley College",
+    "Branford%20College" => "Branford College",
+    "Calhoun%20College"  => "Calhoun College",
+    "Davenport%20College" => "Davenport College",
+    "Ezra%20Stiles%20College" => "Ezra Stiles College",
+    "Jonathan%20Edwards%20College" => "Jonathan Edwards College",
+    "Morse%20College" => "Morse College",
+    "Pierson%20College" => "Pierson College",
+    "Saybrook%20College" => "Saybrook College",
+    "Silliman%20College" => "Silliman College",
+    "Timothy%20Dwight%20College" => "Timothy Dwight College",
+    "Trumbull%20College" => "Trumbull College" }
 
-  #puts agent.page.inspect
-  agent.get(new_url)
-  count = 0
-  # f = File.open("yale.txt", "w")
-  l = agent.page.link_with(:text => "Next >")
-  flag = true
-  while flag
-    flag  = false if not l
-    items = agent.page.search("tr:nth-child(3) td , tr:nth-child(4) td, tr:nth-child(5) td")
+  colleges.each do |urlPart,college|
+    puts "Getting #{college} students' information..."
+    frontPage = agent.get(new_url + urlPart)
+    frontPage = agent.get(all_url)
 
-    items.css("td").each do |i|
+    students = agent.page.search(".student_container")
+    students.each do |student|
       begin
-        names = i.at_css("b").text.split(",")
-        fname = names[1].split(" ")[0].strip
-        lname = names[0].strip
-      rescue 
-        puts "\t\t\t\t\t\tNO NAME"
-        next
+        name = student.css(".student_name")[0].text.strip
+        nameParts = name.match /([[:alpha:]]+),\s*([[:alpha:]]+)\s*([[:alpha:]]*)/
+        fname = $2
+        lname = $1
+        email = student.css(".student_info > a")[0].text.strip
+        year  = student.css(".student_year")[0].text.strip
+        year[0] = ''
+        pictureUrl = student.css("img")[0]["src"]
+        # puts "#{fname}|#{lname}|#{email}|#{year}|#{pictureUrl}"
+        User.create!({
+          fname: fname,
+          nickname: fname,
+          lname: lname,
+          email: email,
+          college: college,
+          year: "20#{year}",
+          picture: "https://students.yale.edu#{pictureUrl}"
+        })
+      rescue
+        puts "Could not add student #{name}"
       end
-      year = i.text[/'\d\d/]
-      if year == ""
-        year = "Unknown"
-        puts "\t\t\t\t\t\tNO YEAR"
-      end
-      c = i.text[/(Morse|Jonathan Edwards|Davenport|Trumbull|Calhoun|Pierson|Silliman|Saybrook|Branford|Berkeley|Ezra Stiles|Timothy Dwight)/]
-      if c == ""
-        c = "Unknown"
-        puts "\t\t\t\t\t\tNO COLLEGE"
-      end
-      begin
-        email = i.at("a").text
-      rescue 
-        email = "#{fname.downcase}.#{lname.sub(' ','').downcase}@yale.edu"
-        puts "\t\t\t\t\t\tNO EMAIL"
-      end
-      begin
-        image = i.at_css("img")["src"]
-      rescue 
-        image = "/facebook/Photo?id=0"
-        puts "\t\t\t\t\t\tNO IMAGE"
-      end
-      
-      User.create!({
-        fname: fname,
-        nickname: fname,
-        lname: lname,
-        email: email,
-        college: c,
-        year: year,
-        picture: "https://students.yale.edu#{image}"
-      })
-      # f.puts "#{fname} | #{lname} | #{email} | #{c} | #{year} | https://students.yale.edu#{image} | #{count}\n"
-      puts "#{count}: Wrote #{fname} #{lname}"
-      count+=1
-    end
-    # f.flush()
-    if l
-      puts l.href
-      l.click()
-      l = agent.page.link_with(:text => "Next >")
-    else
-      puts "DONE!!\n\n"
     end
   end
-
-  # f.close()
+  puts "DONE!!"
 end
-
