@@ -121,7 +121,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    sqlite3 (1.3.5)
     thin (1.6.0)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -163,6 +162,5 @@ DEPENDENCIES
   rubycas-client
   sass-rails
   sendgrid
-  sqlite3 (= 1.3.5)
   thin
   uglifier (>= 1.0.3)
