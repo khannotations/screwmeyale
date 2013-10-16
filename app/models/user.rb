@@ -175,6 +175,7 @@ class User < ActiveRecord::Base
     fname = name[0]
     lname = name[1, 5].join(" ") # the rest — not sure why i chose 5?
 
+    puts "Looking up #{fname},#{lname},#{college},#{year}"
     @user = User.where(fname: fname, lname: lname, college: college, year: year).first
 
   end
